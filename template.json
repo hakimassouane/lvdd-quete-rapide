@@ -1,0 +1,156 @@
+{
+  "Actor": {
+    "types": ["character"],
+    "templates": {
+      "base": {
+        "attributes": {
+          "str": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "dex": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "con": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "int": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "wis": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "cha": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          }
+        },
+        "archetypes": {
+          "fig": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "rog": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "exp": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "sag": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "art": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          },
+          "dip": {
+            "base": 0,
+            "sources": 0,
+            "class": 0,
+            "total": 0
+          }
+        }
+      }
+    },
+    "character": {
+      "templates": ["base"],
+      "ancestry": null,
+      "calling": null,
+      "details": {
+        "biography": {
+          "value": "",
+          "public": ""
+        }
+      },
+      "resolve": {
+        "current": {
+          "value": 10,
+          "min": 0,
+          "max": 10
+        },
+        "maximum": {
+          "base": 10,
+          "total": 10
+        }
+      }
+    },
+    "htmlFields": ["details.biography.value", "details.biography.public"]
+  },
+  "Item": {
+    "types": ["resource", "perk"],
+    "templates": {
+      "base": {
+        "isHidden": false,
+        "modifiers": [],
+        "rarity": "common",
+        "tags": [],
+        "descriptions": {
+          "primary": {
+            "main": null,
+            "flavor": null
+          },
+          "secondary": {
+            "main": null,
+            "flavor": null
+          }
+        }
+      },
+      "equip": {
+        "canBeEquipped": false,
+        "isEquipped": false
+      },
+      "charges": {
+        "canHaveCharges": false,
+        "charges": 1
+      },
+      "bulk": {
+        "canHaveBulk": true,
+        "bulk": 1
+      },
+      "value": {
+        "canHaveValue": true,
+        "value": 1
+      },
+      "roll": {
+        "canBeRolled": false,
+        "rollStats": []
+      }
+    },
+    "htmlFields": ["descriptions.primary.main", "descriptions.primary.flavor", "descriptions.secondary.main", "descriptions.secondary.flavor"],
+    "resource": {
+      "templates": ["base", "equip", "charges", "bulk", "value"]
+    },
+    "perk": {
+      "templates": ["base"]
+    }
+  }
+}
