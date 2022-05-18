@@ -14,6 +14,7 @@ export default class ActorEntity extends Actor {
 		// Get item categories
 		actor.data.resources = this._getResources(actor.items.filter((x) => x.type == "resource"));
 		actor.data.perks = this._getPerks(actor.items.filter((x) => x.type == "perk"));
+		actor.data.skills = this._getSkills(actor.items.filter((x) => x.type == "skill"));
 
 		// Get modifiers and apply to aspects
 		let modifiers = this._getItemModifiers(actor.items);
@@ -76,6 +77,22 @@ export default class ActorEntity extends Actor {
 			}
 		});
 		return perks;
+	}
+
+	_getSkills(items) {
+		let skills = {
+			items: items,
+			totalVisible: 0,
+			totalHidden: 0
+		};
+		items.forEach(function(item) {
+			if (item.data.data.isHidden) {
+				skills.totalHidden++;
+			} else {
+				skills.totalVisible++;
+			}
+		});
+		return skills;
 	}
 
 	_validateItems(items) {

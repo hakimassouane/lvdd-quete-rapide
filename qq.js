@@ -3,6 +3,7 @@ import { preloadHandlebarsTemplates } from "./scripts/templates/templates.js";
 import ActorSheetCharacter from './scripts/sheets/character.js';
 import ItemSheetResource from './scripts/sheets/resource.js';
 import ItemSheetPerk from './scripts/sheets/perk.js';
+import ItemSheetSkill from './scripts/sheets/skill.js';
 import ActorEntity from './scripts/entities/actor.js';
 import ItemEntity from './scripts/entities/item.js';
 import TokenDocumentEntity from './scripts/entities/token.js';
@@ -42,6 +43,11 @@ Hooks.once("init", function() {
 		types: ['perk'],
 		makeDefault: true,
 		label: "sheet.perk.label"
+	});
+	Items.registerSheet("gqq", ItemSheetSkill, {
+		types: ['skill'],
+		makeDefault: true,
+		label: "sheet.skill.label"
 	});
 
 	// Register handlebars helpers

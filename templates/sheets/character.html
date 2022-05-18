@@ -8,6 +8,7 @@
             </div>
             <div class="navigation">
                 <a class="item active" data-tab="aspects">{{localize 'sheet.character.nav.aspects'}}</a>
+                <a class="item" data-tab="skills">{{localize 'sheet.character.nav.skills'}}</a>
                 <a class="item" data-tab="perks">{{localize 'sheet.character.nav.perks'}}</a>
                 <a class="item" data-tab="resources">{{localize 'sheet.character.nav.resources'}}</a>
                 <a class="item" data-tab="journal">{{localize 'sheet.character.nav.journal'}}</a>
@@ -172,6 +173,64 @@
                     </section>
                 </div>
             </div>
+            <div class="tab tab--skills" data-group="primary" data-tab="skills">
+                <div class="fieldset fieldset--items character__skills">
+                    <section class="fieldset__body">
+                        <table>
+                            <thead>
+                                <th></th>
+                                <th>{{localize 'common.skill'}}</th>
+                                <th>{{localize 'common.modifiers'}}</th>
+                                <th>{{localize 'common.actions'}}</th>
+                            </thead>
+                            <tbody class="items skills item-list">
+                                {{#if data.data.skills.items.length}}
+                                    {{#each data.data.skills.items as | item id |}}
+                                        <tr class="item item--rarity--{{item.data.data.rarity}} {{#if item.data.data.isHidden}}item--hidden{{/if}} skill" data-item-id="{{item.id}}">
+                                            <td class="item__icon">
+                                                <img src="{{item.img}}"/>
+                                            </td>
+                                            <td class="item__title">
+                                                <input data-field="name" type="text" value="{{item.name}}" title="{{item.name}}"/>
+                                            </td>
+                                            <td class="skill__modifiers" title="{{#each item.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}">
+                                                {{#each item.data.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}
+                                            </td>
+                                            <td class="item__actions">
+                                                {{#if item.data.data.canBeRolled}}
+                                                <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
+                                                    <i class="fas fa-dice"></i>
+                                                </button>
+                                                {{/if}}
+                                                <button type="button" class="item__action item__action--open" title="{{localize 'sheet.character.items.actions.inspect'}}">
+                                                    <i class="fas fa-book-open"></i>
+                                                </button>
+                                                <button type="button" class="item__action item__action--delete" title="{{localize 'sheet.character.items.actions.delete'}}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                {{else}}
+                                    <tr class="empty">
+                                        <td colspan="7">{{localize 'sheet.character.skills.empty'}}</td>
+                                    </tr>
+                                {{/if}}
+                            </tbody>
+                        </table>
+                    </section>
+                    <footer class="fieldset__footer fieldset--items__controls">
+                        <div class="fieldset--items__details">
+                            <div class="skills__count" title="{{localize 'common.counter.skills' count=data.data.skills.totalVisible}} {{#if data.data.skills.totalHidden}}({{localize 'common.counter.hidden' count=data.data.skills.totalHidden}}){{/if}}">
+                                <i class="fa fa-list"></i>{{data.data.skills.totalVisible}}
+                            </div>
+                        </div>
+                        <button type="button" class="item__action item__action--add" title="{{localize 'sheet.character.skills.actions.add'}}">
+                            <i class="fas fa-plus-circle"></i> {{localize 'sheet.character.skills.actions.add'}}
+                        </button>
+                    </footer>
+                </div>
+            </div>
             <div class="tab tab--perks" data-group="primary" data-tab="perks">
                 <div class="fieldset fieldset--items character__perks">
                     <section class="fieldset__body">
@@ -196,11 +255,6 @@
                                                 {{#each item.data.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}
                                             </td>
                                             <td class="item__actions">
-                                                {{#if item.data.data.canBeRolled}}
-                                                <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
-                                                    <i class="fas fa-dice"></i>
-                                                </button>
-                                                {{/if}}
                                                 <button type="button" class="item__action item__action--open" title="{{localize 'sheet.character.items.actions.inspect'}}">
                                                     <i class="fas fa-book-open"></i>
                                                 </button>

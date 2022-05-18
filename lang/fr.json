@@ -28,6 +28,8 @@
     "common.name": "Nom",
     "common.perk": "Talent",
     "common.perks": "Talents",
+    "common.skill": "Compétence",
+    "common.skills": "Compétences",
     "common.ancestry": "Ascendance",
     "common.ancestries": "Ascendances",
     "common.calling": "Vocation",
@@ -65,6 +67,7 @@
     "common.counter.resources": "Objets: {count}",
     "common.counter.hidden": "+{count} caché",
     "common.counter.perks": "Talents: {count}",
+    "common.counter.skills": "Compétences: {count}",
     "common.counter.bulk": "Poids: {count}",
     "common.counter.value": "Valeur: {count} po",
     "common.counter.charges": "Charges: {count}",
@@ -84,6 +87,7 @@
     "sheet.character.nav.aspects": "Aspects",
     "sheet.character.nav.resources": "Inventaire",
     "sheet.character.nav.perks": "Talents",
+    "sheet.character.nav.skills": "Compétences",
     "sheet.character.nav.journal": "Journal",
     "sheet.character.appearance.title": "Apparence",
     "sheet.character.items.actions.inspect": "Details",
@@ -93,9 +97,12 @@
     "sheet.character.resources.actions.add": "Ajouter un objet",
     "sheet.character.resources.actions.toggle.equipped": "Équiper",
     "sheet.character.resources.empty": "Vous n'avez aucun objet",
-    "sheet.character.perks.title": "Atout",
-    "sheet.character.perks.actions.add": "Ajouter un atout",
-    "sheet.character.perks.empty": "Vous n'avez aucun atout",
+    "sheet.character.perks.title": "Talent",
+    "sheet.character.perks.actions.add": "Ajouter un talent",
+    "sheet.character.perks.empty": "Vous n'avez aucun talent",
+    "sheet.character.skills.title": "Compétence",
+    "sheet.character.skills.actions.add": "Ajouter une compétence",
+    "sheet.character.skills.empty": "Vous n'avez aucune compétence",
     "sheet.character.source": "{value} de {source}",
 
     "sheet.item.nav.front": "A",
@@ -105,6 +112,8 @@
     "sheet.resource.label": "Feuille de personnage Quickquest par défaut",
 
     "sheet.perk.label": "Feuille de personnage Quickquest par défaut",
+
+    "sheet.skill.label": "Feuille de personnage Quickquest par défaut",
 
     "dialog.edit_item.add_tag": "Ajouter un tag",
     "dialog.edit_item.add_modifier": "Ajouter un modificateur",
@@ -117,12 +126,19 @@
     "dialog.edit_resource.description": "Description",
     "dialog.edit_resource.flavor": "Texte d'accompagnement",
 
-    "dialog.edit_perk.title": "Editer l'atout",
+    "dialog.edit_perk.title": "Editer le talent",
     "dialog.edit_perk.tab.core": "Core",
     "dialog.edit_perk.tab.description": "Description",
     "dialog.edit_perk.tab.extra": "Details supplémentaire",
     "dialog.edit_perk.description": "Description",
     "dialog.edit_perk.flavor": "Texte d'accompagnement",
+
+    "dialog.edit_skill.title": "Editer la compétence",
+    "dialog.edit_skill.tab.core": "Core",
+    "dialog.edit_skill.tab.description": "Description",
+    "dialog.edit_skill.tab.extra": "Details supplémentaire",
+    "dialog.edit_skill.description": "Description",
+    "dialog.edit_skill.flavor": "Texte d'accompagnement",
 
     "dialog.character_roll.title": "Faire un jet",
     "dialog.character_roll.bonus": "Bonus",
@@ -133,7 +149,8 @@
     "dialog.character_roll.roll_mode.selfroll": "Jet pour soi",
 
     "new.resource.title": "Nouvel objet",
-    "new.perk.title": "Nouvel atout",
+    "new.perk.title": "Nouveau talent",
+    "new.skill.title": "Nouvelle compétence",
 
     "chat.roll.attribute.normal": "{attribute}",
     "chat.roll.attribute.advantage": "{attribute} avec {advantage}",

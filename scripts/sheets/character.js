@@ -36,6 +36,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 		if (this.isEditable) {   
 			html.find('.character__resources .item__action--add').click(this._onResourceAdd.bind(this));
 			html.find('.character__perks .item__action--add').click(this._onPerkAdd.bind(this));
+			html.find('.character__skills .item__action--add').click(this._onSkillAdd.bind(this));
 			html.find('.resource__action--toggle-equipped').click(this._onResourceToggleEquipped.bind(this));
 			html.find('.item__action--roll').click(this._onMakeRollItem.bind(this));
 			html.find('.item__action--toggle-hidden').click(this._onItemToggleHidden.bind(this));
@@ -67,6 +68,18 @@ export default class ActorSheetCharacter extends ActorSheet {
 			name: game.i18n.format("new.perk.title"),
 			img: "icons/svg/aura.svg",
 			type: "perk",
+			data: duplicate(event.currentTarget.dataset)
+		};
+		delete resourceData.data["type"];
+		return this.actor.createEmbeddedDocuments("Item", [resourceData]);
+	}
+
+	_onSkillAdd(event) {
+		event.preventDefault();
+		const resourceData = {
+			name: game.i18n.format("new.skill.title"),
+			img: "icons/svg/book.svg",
+			type: "skill",
 			data: duplicate(event.currentTarget.dataset)
 		};
 		delete resourceData.data["type"];

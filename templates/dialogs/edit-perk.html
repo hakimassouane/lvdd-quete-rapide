@@ -55,16 +55,6 @@
                         <button type="button" data-action="add-tag"><i class="fas fa-plus-circle"></i> {{localize 'dialog.edit_item.add_tag'}}</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-group__header"><i class="fa fa-fw fa-dice"></i> {{localize 'common.rollable'}}</label>
-                    <div class="form-group__body">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <input type="checkbox" name="data.canBeRolled" data-dtype="Boolean" {{checked item.data.canBeRolled}}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="tab tab--description" data-group="primary" data-tab="description">
                 <div class="form-group form-group--modifiers">
@@ -73,7 +63,7 @@
                         <div class="modifiers">
                             {{#each item.data.modifiers as | modifier id |}}
                                 <div class="input-group">
-                                    <input name="data.modifiers[].value" type="number" value="{{modifier.value}}"/>
+                                    <input name="data.modifiers[].value" step="5" type="number" value="{{modifier.value}}"/>
                                     <select name="data.modifiers[].type">
                                         {{#select modifier.type}}
                                             <optgroup label="{{localize 'common.attributes'}}">
@@ -106,49 +96,6 @@
                             {{/each}}
                         </div>
                         <button type="button" data-action="add-modifier"><i class="fas fa-plus-circle"></i> {{localize 'dialog.edit_item.add_modifier'}}</button>
-                    </div>
-                </div>
-                <div class="form-group form-group--rollStats">
-                    <label class="form-group__header"><i class="fa fa-fw fa-tags"></i> {{localize 'common.rollingAttributesAndArchetype'}}</label>
-                    <div class="form-group__body">
-                        <div class="rollStats">
-                            {{#each item.data.rollStats as | rollStats id |}}
-                                <div class="input-group">
-                                    <select name="data.rollStats[].type">
-                                        {{#select rollStats.type}}
-                                            <optgroup label="{{localize 'common.attributes'}}">
-                                                <option value="str">{{localize 'common.str.code'}}</option>
-                                                <option value="dex">{{localize 'common.dex.code'}}</option>
-                                                <option value="con">{{localize 'common.con.code'}}</option>
-                                                <option value="int">{{localize 'common.int.code'}}</option>
-                                                <option value="wis">{{localize 'common.wis.code'}}</option>
-                                                <option value="cha">{{localize 'common.cha.code'}}</option>
-                                            </optgroup>
-                                            <optgroup label="{{localize 'common.archetypes'}}">
-                                                <option value="fig">{{localize 'common.fig.code'}}</option>
-                                                <option value="rog">{{localize 'common.rog.code'}}</option>
-                                                <option value="exp">{{localize 'common.exp.code'}}</option>
-                                                <option value="sag">{{localize 'common.sag.code'}}</option>
-                                                <option value="art">{{localize 'common.art.code'}}</option>
-                                                <option value="dip">{{localize 'common.dip.code'}}</option>
-                                            </optgroup>
-                                        {{/select}}
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button type="button" data-action="delete-stats-to-roll"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        </div>
-                        <button type="button" data-action="add-stats-to-roll"><i class="fas fa-plus-circle"></i> {{localize 'dialog.edit_item.add_stats_to_roll'}}</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-group__header"><i class="fa fa-fw fa-plus"></i> {{localize 'common.skill_bonus'}}</label>
-                    <div class="form-group__body">
-                        <div class="input-group">
-                            <input name="data.skillBonus" type="number" min="0" value="{{item.data.skillBonus}}"/>
-                        </div>
                     </div>
                 </div>
                 <div class="form-group form-group--column form-group--description">

@@ -28,6 +28,8 @@
     "common.name": "Name",
     "common.perk": "Perk",
     "common.perks": "Perks",
+    "common.skill": "Skill",
+    "common.skills": "Skills",
     "common.ancestry": "Ancestry",
     "common.ancestries": "Ancestries",
     "common.calling": "Calling",
@@ -65,6 +67,7 @@
     "common.counter.resources": "Resources: {count}",
     "common.counter.hidden": "+{count} hidden",
     "common.counter.perks": "Perks: {count}",
+    "common.counter.skills": "Skills: {count}",
     "common.counter.bulk": "Bulk: {count}",
     "common.counter.value": "Value: {count}",
     "common.counter.charges": "Charges: {count}",
@@ -84,6 +87,7 @@
     "sheet.character.nav.aspects": "Aspects",
     "sheet.character.nav.resources": "Resources",
     "sheet.character.nav.perks": "Perks",
+    "sheet.character.nav.skills": "Skills",
     "sheet.character.nav.journal": "Journal",
     "sheet.character.appearance.title": "Appearance",
     "sheet.character.items.actions.inspect": "Inspect",
@@ -96,6 +100,9 @@
     "sheet.character.perks.title": "Perk",
     "sheet.character.perks.actions.add": "Add perk",
     "sheet.character.perks.empty": "You have no perks",
+    "sheet.character.skills.title": "Skill",
+    "sheet.character.skills.actions.add": "Add Skill",
+    "sheet.character.skills.empty": "You have no skills",
     "sheet.character.source": "{value} from {source}",
 
     "sheet.item.nav.front": "A",
@@ -105,6 +112,8 @@
     "sheet.resource.label": "Default QQ Resource Sheet",
 
     "sheet.perk.label": "Default QQ Perk Sheet",
+
+    "sheet.skill.label": "Default QQ Skill Sheet",
 
     "dialog.edit_item.add_tag": "Add a tag",
     "dialog.edit_item.add_modifier": "Add a modifier",
@@ -123,6 +132,13 @@
     "dialog.edit_perk.description": "Description",
     "dialog.edit_perk.flavor": "Flavor text",
 
+    "dialog.edit_skill.title": "Edit Skill",
+    "dialog.edit_skill.tab.core": "Core",
+    "dialog.edit_skill.tab.description": "Description",
+    "dialog.edit_skill.tab.extra": "Extra Details",
+    "dialog.edit_skill.description": "Description",
+    "dialog.edit_skill.flavor": "Flavor text",
+
     "dialog.character_roll.title": "Make a Roll",
     "dialog.character_roll.bonus": "Bonus",
     "dialog.character_roll.roll_mode.title": "Roll Mode",
@@ -133,6 +149,7 @@
 
     "new.resource.title": "New resource",
     "new.perk.title": "New perk",
+    "new.skill.title": "New skill",
 
     "chat.roll.attribute.normal": "{attribute}",
     "chat.roll.attribute.advantage": "{attribute} with {advantage}",

@@ -446,4 +446,37 @@ $character--inventory--border--color: $character--header--background;
             }
         }
     }
+
+    .character__skills {
+
+        table {
+
+            th,
+            td {
+
+                &:nth-child(1) {
+                    width: 5%;
+                }
+
+                &:nth-child(2) {
+                    width: 65%;
+                    text-align: left;
+                }
+
+                &:nth-child(3) {
+                    width: 17%;
+                    text-align: center;
+                }
+
+                &:nth-child(4) {
+                    width: 13%;
+                    text-align: center;
+                }
+            }
+
+            td.skill__modifiers {
+                text-transform: uppercase;
+            }
+        }
+    }
 }

@@ -106,7 +106,7 @@
     "htmlFields": ["details.biography.value", "details.biography.public"]
   },
   "Item": {
-    "types": ["resource", "perk"],
+    "types": ["resource", "perk", "skill"],
     "templates": {
       "base": {
         "isHidden": false,
@@ -151,6 +151,9 @@
       "templates": ["base", "equip", "charges", "bulk", "value"]
     },
     "perk": {
+      "templates": ["base"]
+    },
+    "skill": {
       "templates": ["base"]
     }
   }

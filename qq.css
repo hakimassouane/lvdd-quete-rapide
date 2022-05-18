@@ -1122,6 +1122,14 @@
     flex-grow: 1;
     resize: none; }
 
+.gqq-dialog--edit-skill .form-group--description {
+  flex-grow: 1; }
+  .gqq-dialog--edit-skill .form-group--description .form-group__body {
+    height: 100%; }
+  .gqq-dialog--edit-skill .form-group--description textarea {
+    flex-grow: 1;
+    resize: none; }
+
 .gqq-dialog--edit-resource .form-group--description {
   flex-grow: 1; }
   .gqq-dialog--edit-resource .form-group--description .form-group__body {
@@ -1455,6 +1463,28 @@
 .gqq-sheet--character .character__perks table td.perk__modifiers {
   text-transform: uppercase; }
 
+.gqq-sheet--character .character__skills table th:nth-child(1),
+.gqq-sheet--character .character__skills table td:nth-child(1) {
+  width: 5%; }
+
+.gqq-sheet--character .character__skills table th:nth-child(2),
+.gqq-sheet--character .character__skills table td:nth-child(2) {
+  width: 65%;
+  text-align: left; }
+
+.gqq-sheet--character .character__skills table th:nth-child(3),
+.gqq-sheet--character .character__skills table td:nth-child(3) {
+  width: 17%;
+  text-align: center; }
+
+.gqq-sheet--character .character__skills table th:nth-child(4),
+.gqq-sheet--character .character__skills table td:nth-child(4) {
+  width: 13%;
+  text-align: center; }
+
+.gqq-sheet--character .character__skills table td.skill__modifiers {
+  text-transform: uppercase; }
+
 .gqq-card--perk {
   display: flex;
   flex-direction: column; }
@@ -1674,6 +1704,227 @@
   border-top-color: rgba(236, 199, 165, 0.5); }
 
 .gqq-card--rarity--legendary .perk__extra {
+  background: rgba(236, 199, 165, 0.5); }
+
+.gqq-card--skill {
+  display: flex;
+  flex-direction: column; }
+  .gqq-card--skill .skill__body {
+    padding: 0;
+    border-radius: 1rem;
+    overflow: hidden; }
+  .gqq-card--skill .skill__description {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-right: -0.75rem; }
+    .gqq-card--skill .skill__description > :last-child {
+      padding-right: 0.5rem;
+      margin-right: 0.25rem; }
+  .gqq-card--skill .skill__blurb {
+    text-align: center;
+    font-family: 'Source Sans Pro';
+    font-size: 14px;
+    line-height: 1.2;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    flex-grow: 1;
+    padding: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1px; }
+  .gqq-card--skill .skill__blurb__text {
+    margin: 0;
+    width: 100%;
+    text-align: left;
+    flex-grow: 1; }
+    .gqq-card--skill .skill__blurb__text + .skill__blurb__flavor {
+      padding-top: 0.75rem; }
+  .gqq-card--skill .skill__blurb__flavor {
+    text-align: right;
+    font-style: italic; }
+  .gqq-card--skill .skill__blurb__text > *:first-child,
+  .gqq-card--skill .skill__blurb__flavor > *:first-child {
+    margin-top: 0; }
+  .gqq-card--skill .skill__blurb__text > *:last-child,
+  .gqq-card--skill .skill__blurb__flavor > *:last-child {
+    margin-bottom: 0; }
+  .gqq-card--skill .skill__modifiers {
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    font-family: 'Londrina Solid'; }
+    .gqq-card--skill .skill__modifiers span:not(:last-child)::after {
+      content: ","; }
+  .gqq-card--skill .skill__extras {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    margin: 0.75rem 0 0;
+    border-top: 1px solid rgba(221, 224, 235, 0.5);
+    padding: 0.75rem 0 0; }
+    .gqq-card--skill .skill__extras .skill__extra {
+      height: 69px;
+      width: 69px; }
+    .gqq-card--skill .skill__extras .skill__extra + .skill__extra {
+      margin-left: 0.25rem; }
+  .gqq-card--skill .skill__extra {
+    border-radius: 1rem;
+    font-family: 'Londrina Solid';
+    font-size: 30px;
+    font-weight: 400;
+    position: relative;
+    flex-shrink: 0;
+    background: #eef0f5;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  .gqq-card--skill .extra__value {
+    position: relative;
+    width: 100%;
+    padding: 0px 2px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; }
+  .gqq-card--skill .extra__icon {
+    font-size: 38px;
+    color: white;
+    text-align: center;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  .gqq-card--skill .extra__input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: white;
+    display: flex;
+    font-weight: 400;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 3px solid #6c20a9;
+    z-index: 2;
+    border-radius: 1rem; }
+    .gqq-card--skill .extra__input:focus {
+      opacity: 1;
+      box-shadow: none; }
+  .gqq-card--skill .skill__extra--bulk,
+  .gqq-card--skill .skill__extra--value,
+  .gqq-card--skill .skill__extra--charges {
+    font-size: 17px; }
+    .gqq-card--skill .skill__extra--bulk.length-0, .gqq-card--skill .skill__extra--bulk.length-1, .gqq-card--skill .skill__extra--bulk.length-2, .gqq-card--skill .skill__extra--bulk.length-3, .gqq-card--skill .skill__extra--bulk.length-4,
+    .gqq-card--skill .skill__extra--value.length-0,
+    .gqq-card--skill .skill__extra--value.length-1,
+    .gqq-card--skill .skill__extra--value.length-2,
+    .gqq-card--skill .skill__extra--value.length-3,
+    .gqq-card--skill .skill__extra--value.length-4,
+    .gqq-card--skill .skill__extra--charges.length-0,
+    .gqq-card--skill .skill__extra--charges.length-1,
+    .gqq-card--skill .skill__extra--charges.length-2,
+    .gqq-card--skill .skill__extra--charges.length-3,
+    .gqq-card--skill .skill__extra--charges.length-4 {
+      font-size: 30px; }
+    .gqq-card--skill .skill__extra--bulk.length-5,
+    .gqq-card--skill .skill__extra--value.length-5,
+    .gqq-card--skill .skill__extra--charges.length-5 {
+      font-size: 24px; }
+    .gqq-card--skill .skill__extra--bulk.length-6,
+    .gqq-card--skill .skill__extra--value.length-6,
+    .gqq-card--skill .skill__extra--charges.length-6 {
+      font-size: 20px; }
+  .gqq-card--skill .skill__equipped {
+    position: absolute;
+    right: -3.5rem;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    bottom: 0;
+    font-size: 27px;
+    background: #dde0eb;
+    color: #c5c9d7; }
+    .gqq-card--skill .skill__equipped.equipped {
+      color: black; }
+  .gqq-card--skill .skill__equipped:hover {
+    cursor: pointer; }
+  .gqq-card--skill .skill__back {
+    background: white;
+    border-radius: 1rem;
+    padding: 0.75rem 0.75rem 1.75rem;
+    overflow-y: auto;
+    font-family: 'Source Sans Pro';
+    position: relative;
+    flex-grow: 1;
+    font-size: 14px;
+    line-height: 1.2;
+    display: flex;
+    overflow: hidden; }
+    .gqq-card--skill .skill__back .skill__blurb {
+      margin-right: -0.5rem;
+      padding-right: 0.5rem; }
+
+.gqq-card--rarity--uncommon .skill__equipped {
+  background: #b2e7a8;
+  color: #a0e194; }
+
+.gqq-card--rarity--uncommon .skill__extras {
+  border-top-color: rgba(178, 231, 168, 0.5); }
+
+.gqq-card--rarity--uncommon .skill__extra {
+  background: rgba(178, 231, 168, 0.5); }
+
+.gqq-card--rarity--rare .skill__equipped {
+  background: #b3d8fe;
+  color: #9acbfe; }
+
+.gqq-card--rarity--rare .skill__extras {
+  border-top-color: rgba(179, 216, 254, 0.5); }
+
+.gqq-card--rarity--rare .skill__extra {
+  background: rgba(179, 216, 254, 0.5); }
+
+.gqq-card--rarity--epic .skill__equipped {
+  background: #cbc8ff;
+  color: #b3afff; }
+
+.gqq-card--rarity--epic .skill__extras {
+  border-top-color: rgba(203, 200, 255, 0.5); }
+
+.gqq-card--rarity--epic .skill__extra {
+  background: rgba(203, 200, 255, 0.5); }
+
+.gqq-card--rarity--legendary .skill__equipped {
+  background: #ecc7a5;
+  color: #e8ba90; }
+
+.gqq-card--rarity--legendary .skill__extras {
+  border-top-color: rgba(236, 199, 165, 0.5); }
+
+.gqq-card--rarity--legendary .skill__extra {
   background: rgba(236, 199, 165, 0.5); }
 
 .gqq-card--resource {
