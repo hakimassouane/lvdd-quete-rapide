@@ -90,6 +90,11 @@ export default class ItemEntity extends Item {
         })
 
         toBeat += parseInt(item.data.skillBonus) + (formInfos.bonusType || 0)
+        if (toBeat > 100) {
+            toBeat = 100
+        } else if (toBeat < 0) {
+            toBeat = 0
+        }
 
         // Faire un roll automatique sur la table de succès ou ecehc critique selon le resultat de ce dés
         contentDices.push(`<ol class="dice-rolls">`)
@@ -103,9 +108,9 @@ export default class ItemEntity extends Item {
             <div>
                 <div style="display: flex; align-items:center; margin-bottom: 0.5rem;">
                     <img src="${item.img}" width="36" height="36">
-                    <p class="item-name" style="margin: 0.5rem 0.3rem;">
+                    <h2 class="item-name" style="margin: 0.5rem 0.3rem;">
                         <b>${item.name}</b>
-					</p>
+					</h2>
                 </div>
                 <p class="item-name" style="margin: 0.5rem 0.3rem;">
                     <i>${this.generateStatsToRollString(rolledStats)}</i><br>

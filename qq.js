@@ -85,11 +85,15 @@ Hooks.once("ready", async function() {
 			<div class="form-group">
 				<label>Type de jet:</label>
 				<select id="roll-type" name="roll-type">
-				<option value="very-easy">Très facile</option>
-				<option value="easy">Facile</option>
-				<option value="normal" selected="selected">Normal</option>
-				<option value="hard">Difficile</option>
-				<option value="very-hard">Très difficile</option>
+				<option value="beni">Béni (+40%)</option>
+				<option value="tres-facile">Très facile (+30%)</option>
+				<option value="facile">Facile (+20%)</option>
+				<option value="accessible">Accessible (+10%)</option>
+				<option value="normal" selected="selected">Normal (+0%)</option>
+				<option value="complexe">Complexe (-10%)</option>
+				<option value="difficile">Difficile (-20%)</option>
+				<option value="tres-difficile">Très difficile (-30%)</option>
+				<option value="maudit">Maudit (-40%)</option>
 				</select>
 			</div>
 		</form>
@@ -120,25 +124,41 @@ Hooks.once("ready", async function() {
 						let rollType = html.find('[name="roll-type"]')[0].value || "normal";
 						// Get Vision Type Values
 						switch (rollType) {
-						case "very-easy":
+						case "beni":
+							formInfos.rollType = "Béni"
+							formInfos.bonusType = 40
+							break;
+						case "tres-facile":
 							formInfos.rollType = "Très facile"
+							formInfos.bonusType = 30
+							break;
+						case "facile":
+							formInfos.rollType = "Facile"
 							formInfos.bonusType = 20
 							break;
-						case "easy":
-							formInfos.rollType = "Facile"
+						case "accessible":
+							formInfos.rollType = "Accecssible"
 							formInfos.bonusType = 10
 							break;
 						case "normal":
 							formInfos.rollType = "Normal"
 							formInfos.bonusType = 0
 							break;
-						case "hard":
-							formInfos.rollType = "Difficile"
+						case "complexe":
+							formInfos.rollType = "Complexe"
 							formInfos.bonusType = -10
 							break;
-						case "very-hard":
-							formInfos.rollType = "Très difficile"
+						case "difficile":
+							formInfos.rollType = "Difficile"
 							formInfos.bonusType = -20
+							break;
+						case "tres-difficile":
+							formInfos.rollType = "Très difficile"
+							formInfos.bonusType = -30
+							break;
+						case "maudit":
+							formInfos.rollType = "Maudit"
+							formInfos.bonusType = -40
 							break;
 						default:
 							formInfos.rollType = "Normal"
