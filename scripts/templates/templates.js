@@ -5,8 +5,8 @@
  */
  export const preloadHandlebarsTemplates = async function() {
     return loadTemplates([
-      "systems/quickquest/templates/partials/character-attribute.html",
-      "systems/quickquest/templates/partials/character-archetype.html"
+      "systems/lvdd-quete-rapide/templates/partials/character-attribute.html",
+      "systems/lvdd-quete-rapide/templates/partials/character-archetype.html"
     ]);
   };
   

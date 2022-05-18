@@ -5,37 +5,37 @@
       "base": {
         "attributes": {
           "str": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "dex": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "con": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "int": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "wis": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "cha": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
@@ -43,37 +43,37 @@
         },
         "archetypes": {
           "fig": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "rog": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "exp": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "sag": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "art": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
           },
           "dip": {
-            "base": 0,
+            "base": 20,
             "sources": 0,
             "class": 0,
             "total": 0
@@ -112,6 +112,7 @@
         "isHidden": false,
         "modifiers": [],
         "rarity": "common",
+        "skillBonus": 0,
         "tags": [],
         "descriptions": {
           "primary": {

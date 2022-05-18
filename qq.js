@@ -12,7 +12,7 @@ import TokenDocumentEntity from './scripts/entities/token.js';
 /* -------------------------------------------- */
 
 Hooks.once("init", function() {
-	console.log(`Giffyglyph's Quick Quest | Initialising`);
+	console.log(`LVDD Quête Rapide | Initialising`);
 
 	game.boilerplate = {
 		ActorEntity,
@@ -52,7 +52,7 @@ Hooks.once("init", function() {
 		return String(str).length;
 	});
 
-	console.log(`Giffyglyph's Quick Quest | Initialised`);
+	console.log(`LVDD Quête Rapide | Initialised`);
 
 	return preloadHandlebarsTemplates();
 });
@@ -80,7 +80,77 @@ Hooks.once("ready", async function() {
 	const item = data.data;
   
 	// Create the macro command with an event
-	const command = `game.boilerplate.rollItemMacro("${item.name}", event);`;
+	const dialogContent = `
+		<form>
+			<div class="form-group">
+				<label>Type de jet:</label>
+				<select id="roll-type" name="roll-type">
+				<option value="very-easy">Très facile</option>
+				<option value="easy">Facile</option>
+				<option value="normal" selected="selected">Normal</option>
+				<option value="hard">Difficile</option>
+				<option value="very-hard">Très difficile</option>
+				</select>
+			</div>
+		</form>
+	`;
+	const command = `
+	    if (event.altKey) {
+			game.boilerplate.rollItemMacro("${item.name}", {});
+		} else {
+			let applyChanges = false;
+			let formInfos = {};
+			new Dialog({
+				title: 'Faire un jet',
+				content: \`${dialogContent}\`,
+				buttons: {
+					yes: {
+					icon: "<i class='fas fa-check'></i>",
+					label: 'Faire un jet',
+					callback: () => applyChanges = true
+					},
+					no: {
+					icon: "<i class='fas fa-times'></i>",
+					label: 'Annuler'
+					},
+				},
+				default: "yes",
+				close: html => {
+					if (applyChanges) {
+						let rollType = html.find('[name="roll-type"]')[0].value || "normal";
+						// Get Vision Type Values
+						switch (rollType) {
+						case "very-easy":
+							formInfos.rollType = "Très facile"
+							formInfos.bonusType = 20
+							break;
+						case "easy":
+							formInfos.rollType = "Facile"
+							formInfos.bonusType = 10
+							break;
+						case "normal":
+							formInfos.rollType = "Normal"
+							formInfos.bonusType = 0
+							break;
+						case "hard":
+							formInfos.rollType = "Difficile"
+							formInfos.bonusType = -10
+							break;
+						case "very-hard":
+							formInfos.rollType = "Très difficile"
+							formInfos.bonusType = -20
+							break;
+						default:
+							formInfos.rollType = "Normal"
+							formInfos.bonusType = 0
+						}
+						game.boilerplate.rollItemMacro("${item.name}", formInfos);
+					}
+				}
+			}).render(true);
+		}
+	`;
+
 	let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
 	if (!macro) {
 	  macro = await Macro.create({
@@ -99,11 +169,9 @@ Hooks.once("ready", async function() {
    * Create a Macro from an Item drop.
    * Get an existing item macro if one exists, otherwise create a new one.
    * @param {string} itemName
-   * @param {Event} event
    * @return {Promise}
    */
-  function rollItemMacro(itemName, event) {
-	  // Check if isRollable is true
+  function rollItemMacro(itemName, formInfos) {
 	const speaker = ChatMessage.getSpeaker();
 	let actor;
 	if (speaker.token) actor = game.actors.tokens[speaker.token];
@@ -112,5 +180,5 @@ Hooks.once("ready", async function() {
 	if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
 	if (!item.data.data.canBeRolled) return ui.notifications.warn(`The item "${itemName}" is no longer rollable, make it rollable before using the macro again`);
   
-	return item.roll(event);
+	return item.roll(formInfos);
   }

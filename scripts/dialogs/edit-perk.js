@@ -10,7 +10,7 @@ export default class EditPerkDialog extends Dialog {
 	/** @override */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			template: "systems/quickquest/templates/dialogs/edit-perk.html",
+			template: "systems/lvdd-quete-rapide/templates/dialogs/edit-perk.html",
 			classes: ["window-gqq"],
 			width: 450,
 			height: 660,
@@ -65,6 +65,7 @@ export default class EditPerkDialog extends Dialog {
 								"img": form.querySelector("[name='img']").value,
 								"data.rarity": form.querySelector("[name='data.rarity']").value,
 								"data.canBeRolled": form.querySelector("[name='data.canBeRolled']").checked,
+								"data.skillBonus": form.querySelector("[name='data.skillBonus']").value || 0,
 								"data.descriptions.primary.main": form.querySelector("[name='data.descriptions.primary.main']").value,
 								"data.descriptions.primary.flavor": form.querySelector("[name='data.descriptions.primary.flavor']").value,
 								"data.descriptions.secondary.main": form.querySelector("[name='data.descriptions.secondary.main']").value,

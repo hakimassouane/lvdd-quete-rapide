@@ -10,7 +10,7 @@ export default class ItemSheetPerk extends ItemSheet {
 				classes: ["window-gqq"],
 				height: 601,
 				width: 350,
-				template: 'systems/quickquest/templates/sheets/perk.html',
+				template: 'systems/lvdd-quete-rapide/templates/sheets/perk.html',
 				resizable: false,
 				tabs: [{navSelector: ".card__tabs__nav", contentSelector: ".card__tabs__body", initial: "front"}]
 			}

@@ -10,7 +10,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 				classes: ["window-gqq"],
 				height: 602,
 				width: 948,
-				template: 'systems/quickquest/templates/sheets/character.html',
+				template: 'systems/lvdd-quete-rapide/templates/sheets/character.html',
 				resizable: false,
 				tabs: [{navSelector: ".tabs__nav", contentSelector: ".tabs__body", initial: "attributes"}]
 			}

@@ -1,9 +1,9 @@
 {
-  "name": "quickquest",
-  "title": "Giffyglyph's Quick Quest",
-  "description": "Fast rpg rules in the Foundry Virtual Tabletop environment.",
-  "version": "1.1.8",
-  "author": "Giffyglyph",
+  "name": "lvdd-quete-rapide",
+  "title": "Quête Rapide - LVDD",
+  "description": "Des règles de rpg rapides.",
+  "version": "1.0.0",
+  "author": "LVDD",
   "scripts": [],
   "esmodules": ["qq.js"],
   "styles": ["qq.css"],
@@ -11,7 +11,7 @@
     {
       "name": "perks",
       "label": "Perks",
-      "system": "quickquest",
+      "system": "lvdd-quete-rapide",
       "path": "./packs/perks.db",
       "entity": "Item",
       "type": "Item"
@@ -19,7 +19,7 @@
     {
       "name": "ressources",
       "label": "Ressources",
-      "system": "quickquest",
+      "system": "lvdd-quete-rapide",
       "path": "./packs/ressources.db",
       "entity": "Item",
       "type": "Item"

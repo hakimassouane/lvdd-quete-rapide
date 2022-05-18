@@ -10,7 +10,7 @@ export default class EditResourceDialog extends Dialog {
 	/** @override */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			template: "systems/quickquest/templates/dialogs/edit-resource.html",
+			template: "systems/lvdd-quete-rapide/templates/dialogs/edit-resource.html",
 			classes: ["window-gqq"],
 			width: 450,
 			height: 660,
@@ -72,6 +72,7 @@ export default class EditResourceDialog extends Dialog {
 								"data.bulk": form.querySelector("[name='data.bulk']").value,
 								"data.canHaveValue": form.querySelector("[name='data.canHaveValue']").checked,
 								"data.value": form.querySelector("[name='data.value']").value,
+								"data.skillBonus": form.querySelector("[name='data.skillBonus']").value || 0,
 								"data.descriptions.primary.main": form.querySelector("[name='data.descriptions.primary.main']").value,
 								"data.descriptions.primary.flavor": form.querySelector("[name='data.descriptions.primary.flavor']").value,
 								"data.descriptions.secondary.main": form.querySelector("[name='data.descriptions.secondary.main']").value,

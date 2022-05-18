@@ -8,7 +8,7 @@ export default class CharacterRollDialog extends Dialog {
 	/** @override */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			template: "systems/quickquest/templates/dialogs/character-roll.html",
+			template: "systems/lvdd-quete-rapide/templates/dialogs/character-roll.html",
 			classes: ["window-gqq"],
 			width: 450,
 			height: 545,

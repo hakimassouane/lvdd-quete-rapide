@@ -22,43 +22,79 @@ export default class ItemEntity extends Item {
         }
 	}
 
+    styleGenerator(roll, toBeat) {
+        if (roll.total <= 5) {
+            return "color: green"
+        } else if (roll.total >= 95) {
+            return "color: red"
+        }
+
+        return roll.total <= toBeat ? "color: darkgreen" : "color: darkred";
+    }
+
+    successOrMiss(roll, toBeat) {
+        if (roll.total <= 5) {
+            return "Succès critique !"
+        } else if (roll.total >= 95) {
+            return "Échec critique !"
+        }
+
+        return roll.total <= toBeat ? "Succès" : "Échec";
+    }
+
+    generateStatsToRollString(rolledStats) {
+        let generatedString = "Stats : "
+
+        rolledStats.forEach(stat => {
+            generatedString = generatedString + stat.name + " " + stat.total + "% + " 
+        })
+
+        return generatedString.slice(0, -3)
+    }
+
+    generateRollBonusInfo(item, formInfos) {
+        let generatedString = ""
+
+
+        if (item.data.skillBonus != 0) {
+            generatedString += `<i>Bonus de compétence : ${item.data.skillBonus}% </i><br>`
+        }
+
+        if (Object.keys(formInfos).length !== 0 && formInfos.bonusType !== 0) {
+            generatedString += `<i>${formInfos.rollType} : ${formInfos.bonusType}%</i><br>`
+        }
+
+        return generatedString
+    }
+
     /**
      * Handle clickable rolls.
-     * @param {Event} event   The originating click event
-     * @private
      */
-    async roll(event) {
-        const token = this.actor.token;
+    async roll(formInfos) {
         const item = this.data;
         const actorData = this.actor ? this.actor.data.data : {};
-        const itemData = item.data;
-        let contentDices = []
-        let rollFormula = ""
-        let rolledStats = []
+        const contentDices = []
+        const rollFormula = "d100"
+        const roll = await new Roll(rollFormula, actorData).roll();
+        const rolledStats = []
+        let toBeat = 0
 
-        if (event.altKey) {
-            rollFormula = "2d20kh"
-        } else if (event.ctrlKey) {
-            rollFormula = "2d20kl"
-        } else {
-            rollFormula = "d20"
-        }
-        
         item.data.rollStats.forEach((rollStat) => {
-            rolledStats.push(game.i18n.localize(`common.${rollStat.type}.name`))
             if (actorData.attributes[rollStat.type]) {
-                rollFormula = rollFormula + ` + ${actorData.attributes[rollStat.type].total}`
+                rolledStats.push({ name: game.i18n.localize(`common.${rollStat.type}.name`), total: actorData.attributes[rollStat.type].total.toString()})
+                toBeat += actorData.attributes[rollStat.type].total
             } else {
-                rollFormula = rollFormula + ` + ${actorData.archetypes[rollStat.type].total}`
+                rolledStats.push({ name: game.i18n.localize(`common.${rollStat.type}.name`), total: actorData.archetypes[rollStat.type].total.toString()})
+                toBeat += actorData.archetypes[rollStat.type].total
             }
         })
 
-        const roll = await new Roll(rollFormula, actorData).roll();
-		for(let i = 0; i < roll.dice[0].number; i++) {
-			if (i === 0) contentDices.push(`<ol class="dice-rolls">`)
-			contentDices.push(`<li class="roll die d20 ${roll.dice[0].results[i].result === 1 ? "min" : ""} ${roll.dice[0].results[i].result === 20 ? "max" : ""} ${roll.dice[0].results[i].discarded ? "discarded" : ""}">${roll.dice[0].results[i].result}</li>`)
-		}
-		contentDices.push(`</ol>`)
+        toBeat += parseInt(item.data.skillBonus) + (formInfos.bonusType || 0)
+
+        // Faire un roll automatique sur la table de succès ou ecehc critique selon le resultat de ce dés
+        contentDices.push(`<ol class="dice-rolls">`)
+        contentDices.push(`<li class="roll die d10 ${roll.dice[0].results[0].result <= 5 ? "max" : ""} ${roll.dice[0].results[0].result >= 95 ? "min" : ""}">${roll.dice[0].results[0].result}</li>`)
+        contentDices.push(`</ol>`)
         ChatMessage.create({
             type: CONST.CHAT_MESSAGE_TYPES.ROLL,
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -68,12 +104,17 @@ export default class ItemEntity extends Item {
                 <div style="display: flex; align-items:center; margin-bottom: 0.5rem;">
                     <img src="${item.img}" width="36" height="36">
                     <p class="item-name" style="margin: 0.5rem 0.3rem;">
-						${item.name} (${rolledStats.join(' | ')}${event.altKey ? " | Avantage" : event.ctrlKey ? " | Désavantage" : ""}) 
+                        <b>${item.name}</b>
 					</p>
                 </div>
+                <p class="item-name" style="margin: 0.5rem 0.3rem;">
+                    <i>${this.generateStatsToRollString(rolledStats)}</i><br>
+                    ${this.generateRollBonusInfo(item, formInfos)}
+                    <i>Taux de réussite : ${toBeat}%</i>
+                </p>
                 <div class="dice-roll">
                     <div class="dice-result">
-                    <div class="dice-formula">${roll.formula}</div>
+                    <div class="dice-formula" style="${this.styleGenerator(roll, toBeat)}">${this.successOrMiss(roll, toBeat)}</div>
                         <div class="dice-tooltip">
                             <section class="tooltip-part">
                                 <div class="dice">
@@ -85,7 +126,7 @@ export default class ItemEntity extends Item {
                                 </div>
                             </section>
                         </div>
-                    <h4 class="dice-total" style="${roll.result.substr(0, roll.result.indexOf(' ')) === "1" ? "color: red" : ""} ${roll.result.substr(0, roll.result.indexOf(' ')) === "20" ? "color: green" : ""}">${roll.total}</h4>
+                    <h4 class="dice-total" style="${this.styleGenerator(roll, toBeat)}">${roll.total}</h4>
                 </div>
             </div>
             `

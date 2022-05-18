@@ -143,6 +143,14 @@
                         <button type="button" data-action="add-stats-to-roll"><i class="fas fa-plus-circle"></i> {{localize 'dialog.edit_item.add_stats_to_roll'}}</button>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-group__header"><i class="fa fa-fw fa-plus"></i> {{localize 'common.skill_bonus'}}</label>
+                    <div class="form-group__body">
+                        <div class="input-group">
+                            <input name="data.skillBonus" type="number" min="0" value="{{item.data.skillBonus}}"/>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group form-group--column form-group--description">
                     <label class="form-group__header"><i class="fa fa-fw fa-sticky-note"></i> {{localize 'dialog.edit_perk.description'}}</label>
                     <div class="form-group__body">
