@@ -2,8 +2,8 @@
     <form class="sheet__body character" autocomplete="off">
         <nav class="tabs__nav character__nav" data-group="primary">
             <div class="sheet__logo">
-                <span>Quick</span>
-                <span>Quest</span>
+                <span>Quête</span>
+                <span>Rapide</span>
                 <span>{{localize 'sheet.character.title'}}</span>
             </div>
             <div class="navigation">
@@ -196,9 +196,11 @@
                                                 {{#each item.data.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}
                                             </td>
                                             <td class="item__actions">
-                                                <button type="button" class="item__action item__action--toggle-hidden" title="{{localize 'sheet.character.items.actions.toggle.hidden'}}">
-                                                    <i class="fas fa-eye-slash"></i>
+                                                {{#if item.data.data.canBeRolled}}
+                                                <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
+                                                    <i class="fas fa-dice"></i>
                                                 </button>
+                                                {{/if}}
                                                 <button type="button" class="item__action item__action--open" title="{{localize 'sheet.character.items.actions.inspect'}}">
                                                     <i class="fas fa-book-open"></i>
                                                 </button>
@@ -278,9 +280,11 @@
                                                 {{#each item.data.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}
                                             </td>
                                             <td class="item__actions">
-                                                <button type="button" class="item__action item__action--toggle-hidden" title="{{localize 'sheet.character.items.actions.toggle.hidden'}}">
-                                                    <i class="fas fa-eye-slash"></i>
+                                                {{#if item.data.data.canBeRolled}}
+                                                <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
+                                                    <i class="fas fa-dice"></i>
                                                 </button>
+                                                {{/if}}
                                                 <button type="button" class="item__action item__action--open" title="{{localize 'sheet.character.items.actions.inspect'}}">
                                                     <i class="fas fa-book-open"></i>
                                                 </button>
@@ -332,7 +336,7 @@
     <div class="sheet__footer">
         <div class="sheet__id">
             <span class="id">{{actor.id}}</span>
-            <span class="name">Quick Quest</span>
+            <span class="name">Quête Rapide</span>
         </div>
     </div>
 </div>

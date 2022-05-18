@@ -61,27 +61,15 @@ export default class CharacterRollDialog extends Dialog {
 		}
 		return new Promise((resolve, reject) => {
 			const dlg = new this(actor, {
-				title: `Make a Roll`,
+				title: `Faire un jet`,
                 preselectedAttribute: preselectedAttribute,
 				buttons: {
-                    advantage: {
-						icon: '<i class="fas fa-plus"></i>',
-						label: game.i18n.format('common.advantage'),
-						class: "btn-advantage",
-						callback: (html) => resolve(_getFormData(html, "advantage"))
-					},
 					roll: {
-						icon: '<i class="fas fa-dice-d20"></i>',
+						icon: '<i class="fas fa-dice"></i>',
 						label: game.i18n.format('common.roll'),
 						class: "btn-primary btn-roll",
 						callback: (html) => resolve(_getFormData(html, "normal"))
-					},
-					disadvantage: {
-						icon: '<i class="fas fa-minus"></i>',
-						label: game.i18n.format('common.disadvantage'),
-						class: "btn-disadvantage",
-						callback: (html) => resolve(_getFormData(html, "disadvantage"))
-					},				
+					},			
 				},
 				close: reject
 			});

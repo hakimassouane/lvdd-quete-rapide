@@ -137,7 +137,17 @@
             <div class="roll__options">
                 <div class="form-group">
                     <label>{{localize 'dialog.character_roll.bonus'}}</label>
-                    <input name="bonus" type="text" placeholder="e.g. +1d4"/>
+                    <select name="bonus">
+                        <option value="beni">Béni (+40%)</option>
+                        <option value="tres-facile">Très facile (+30%)</option>
+                        <option value="facile">Facile (+20%)</option>
+                        <option value="accessible">Accessible (+10%)</option>
+                        <option value="normal" selected="selected">Normal (+0%)</option>
+                        <option value="complexe">Complexe (-10%)</option>
+                        <option value="difficile">Difficile (-20%)</option>
+                        <option value="tres-difficile">Très difficile (-30%)</option>
+                        <option value="maudit">Maudit (-40%)</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>{{localize 'dialog.character_roll.roll_mode.title'}}</label>

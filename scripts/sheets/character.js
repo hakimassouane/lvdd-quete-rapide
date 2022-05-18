@@ -37,11 +37,12 @@ export default class ActorSheetCharacter extends ActorSheet {
 			html.find('.character__resources .item__action--add').click(this._onResourceAdd.bind(this));
 			html.find('.character__perks .item__action--add').click(this._onPerkAdd.bind(this));
 			html.find('.resource__action--toggle-equipped').click(this._onResourceToggleEquipped.bind(this));
+			html.find('.item__action--roll').click(this._onMakeRollItem.bind(this));
 			html.find('.item__action--toggle-hidden').click(this._onItemToggleHidden.bind(this));
 			html.find('.item .item__icon img, .item__action--open').click(this._onItemOpen.bind(this));
 			html.find('.item .item__title input, .resource .resource__bulk input, .resource .resource__value input, .resource .resource__charges input').change(this._onItemChange.bind(this));
 			html.find('.item__action--delete').click(this._onItemDelete.bind(this));
-			html.find('.character-action--roll, .attributes .attribute__tag').click(this._onMakeRoll.bind(this));
+			html.find('.character-action--roll, .attributes .attribute__tag').click(this._onMakeRollStats.bind(this));
 		}
 		super.activateListeners(html);
 	}
@@ -114,82 +115,148 @@ export default class ActorSheetCharacter extends ActorSheet {
 		this.actor.deleteEmbeddedDocuments("Item", [li.dataset.itemId]);
 	}
 
-	async _onMakeRoll(event) {
+	styleGenerator(roll, toBeat) {
+        if (roll.total <= 5) {
+            return "color: green"
+        } else if (roll.total >= 95) {
+            return "color: red"
+        }
+
+        return roll.total <= toBeat ? "color: darkgreen" : "color: darkred";
+    }
+
+    successOrMiss(roll, toBeat) {
+        if (roll.total <= 5) {
+            return "Succès critique !"
+        } else if (roll.total >= 95) {
+            return "Échec critique !"
+        }
+
+        return roll.total <= toBeat ? "Succès" : "Échec";
+    }
+
+    generateStatsToRollString(form) {
+        let generatedString = `Stats : ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) + " " + this.actor.data.data.attributes[form.attribute].total + "% + " : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) + " " + this.actor.data.data.archetypes[form.archetype].total + "% + " : ""}`
+
+		console.log('generated string => ', generatedString)
+        return generatedString.slice(0, -3)
+    }
+
+    generateRollBonusInfo(form) {
+		let rollType = ""
+		let bonusAmount = 0
+
+		switch (form.bonus) {
+			case "beni":
+				rollType = "Béni"
+				bonusAmount = 40
+				break;
+			case "tres-facile":
+				rollType = "Très facile"
+				bonusAmount = 30
+				break;
+			case "facile":
+				rollType = "Facile"
+				bonusAmount = 20
+				break;
+			case "accessible":
+				rollType = "Accecssible"
+				bonusAmount = 10
+				break;
+			case "normal":
+				rollType = "Normal"
+				bonusAmount = 0
+				break;
+			case "complexe":
+				rollType = "Complexe"
+				bonusAmount = -10
+				break;
+			case "difficile":
+				rollType = "Difficile"
+				bonusAmount = -20
+				break;
+			case "tres-difficile":
+				rollType = "Très difficile"
+				bonusAmount = -30
+				break;
+			case "maudit":
+				rollType = "Maudit"
+				bonusAmount = -40
+				break;
+			default:
+				rollType = "Normal"
+				bonusAmount = 0
+			}
+
+        return {
+			bonusAmount,
+			rollType,
+			finalString: bonusAmount !== 0 ? `<i>${rollType} : ${bonusAmount}%</i><br>` : ""
+		}
+    }
+
+	async _onMakeRollStats(event) {
 		event.preventDefault();
 		let preselectedAttribute = event.currentTarget.closest(".attribute") ? event.currentTarget.closest(".attribute").getAttribute("data-attribute") : null;
 		try {
-			let form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preselectedAttribute});
-			let rollParts = [];
-			let messageParts = {
-				attribute: null,
-				archetype: null,
-				advantage: null
-			};
-			if (form.attribute) {
-				rollParts.push(this.actor.data.data.attributes[form.attribute].total);
-				messageParts.attribute = game.i18n.format(`common.${form.attribute}.name`);
-			}
-			if (form.archetype) {
-				rollParts.push(this.actor.data.data.archetypes[form.archetype].total);
-				messageParts.archetype = game.i18n.format(`common.${form.archetype}.name`);
-			}
-			if (form.bonus) {
-				rollParts.push(form.bonus);
-			}
-			switch (form.advantage) {
-				case "advantage":
-					rollParts.unshift("2d20kh");
-					messageParts.advantage = game.i18n.format('common.advantage');
-					break;
-				case "disadvantage":
-					rollParts.unshift("2d20kl");
-					messageParts.advantage = game.i18n.format('common.disadvantage');
-					break;
-				default: 
-					rollParts.unshift("1d20");
-					break;
-			}
-			const roll = await new Roll(rollParts.join(" + ")).roll();
+			const form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preselectedAttribute});
+			const formInfos = this.generateRollBonusInfo(form)
+			const roll = await new Roll("1d100").roll();
+			let toBeat = formInfos.bonusAmount
 			let contentDices = []
 
-			for(let i = 0; i < roll.dice[0].number; i++) {
-				if (i === 0) contentDices.push(`<ol class="dice-rolls">`)
-				contentDices.push(`<li class="roll die d20 ${roll.dice[0].results[i].result === 1 ? "min" : ""} ${roll.dice[0].results[i].result === 20 ? "max" : ""} ${roll.dice[0].results[i].discarded ? "discarded" : ""}">${roll.dice[0].results[i].result}</li>`)
+			if (this.actor.data.data.attributes[form.attribute]) {
+				toBeat += this.actor.data.data.attributes[form.attribute].total
 			}
-			contentDices.push(`</ol>`)
+			if (this.actor.data.data.archetypes[form.archetype]) {
+				toBeat += this.actor.data.data.archetypes[form.archetype].total
+			}
 
+			if (toBeat > 100) {
+				toBeat = 100
+			} else if (toBeat < 0) {
+				toBeat = 0
+			}
+			
+			// Faire un roll automatique sur la table de succès ou ecehc critique selon le resultat de ce dés
+			contentDices.push(`<ol class="dice-rolls">`)
+			contentDices.push(`<li class="roll die d10 ${roll.dice[0].results[0].result <= 5 ? "max" : ""} ${roll.dice[0].results[0].result >= 95 ? "min" : ""}">${roll.dice[0].results[0].result}</li>`)
+			contentDices.push(`</ol>`)
 			ChatMessage.create({
 				type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-				speaker: ChatMessage.getSpeaker(),
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				roll,
 				content: `
 				<div>
 					<div style="display: flex; align-items:center; margin-bottom: 0.5rem;">
 						<img src="${ChatMessage.getSpeakerActor(ChatMessage.getSpeaker()).img}" width="36" height="36">
-						<p class="item-name" style="margin: 0.5rem 0.3rem;">
-							Jet de ${messageParts.attribute || ""} ${messageParts.archetype || ""} ${messageParts.advantage ? "(" + messageParts.advantage + ")" : ""}
-						</p>
+						<h2 class="item-name" style="margin: 0.5rem 0.3rem;">
+							<b>Jet de ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) : ""}</b>
+						</h2>
 					</div>
+					<p class="item-name" style="margin: 0.5rem 0.3rem;">
+						<i>${this.generateStatsToRollString(form)}</i><br>
+						${formInfos.finalString}
+						<i>Taux de réussite : ${toBeat}%</i>
+					</p>
 					<div class="dice-roll">
 						<div class="dice-result">
-						<div class="dice-formula">${roll.formula}</div>
+						<div class="dice-formula" style="${this.styleGenerator(roll, toBeat)}">${this.successOrMiss(roll, toBeat)}</div>
 							<div class="dice-tooltip">
 								<section class="tooltip-part">
 									<div class="dice">
 										<header class="part-header flexrow">
 											<span class="part-formula">${roll.formula.substring(0, roll.formula.indexOf("20") + 2)}</span>
-											
 											<span class="part-total">${roll.total}</span>
 										</header>
 										${contentDices.join("")}
 									</div>
 								</section>
 							</div>
-						<h4 class="dice-total" style="${roll.result.substr(0, roll.result.indexOf(' ')) === "1" ? "color: red" : ""} ${roll.result.substr(0, roll.result.indexOf(' ')) === "20" ? "color: green" : ""}">${roll.total}</h4>
+						<h4 class="dice-total" style="${this.styleGenerator(roll, toBeat)}">${roll.total}</h4>
 					</div>
 				</div>
-				`,
-				rollMode: form.mode,
-				roll
+				`
 			});
 		} catch(err) {
 			console.log(err);
@@ -197,9 +264,100 @@ export default class ActorSheetCharacter extends ActorSheet {
 		}
 	}
 
-	static _getMessageFromParts(messageParts) {
-		let type = (messageParts.attribute && messageParts.archetype) ? "dual" : (messageParts.attribute ? "attribute" : "archetype");
-		let advantage = messageParts.advantage ? "advantage" : "normal";
-		return game.i18n.format(`chat.roll.${type}.${advantage}`, messageParts);
+	async _onMakeRollItem(event) {
+		event.preventDefault();
+		const itemName = event.currentTarget.parentNode.parentNode.childNodes[3].firstElementChild.getAttribute("value")
+		try {
+			if (event.altKey) {
+				game.boilerplate.rollItemMacro(itemName, {});
+			} else {
+				let applyChanges = false;
+				let formInfos = {};
+				new Dialog({
+					title: 'Faire un jet',
+					content: `
+			<form>
+				<div class="form-group">
+					<label>Type de jet:</label>
+					<select id="roll-type" name="roll-type">
+					<option value="beni">Béni (+40%)</option>
+					<option value="tres-facile">Très facile (+30%)</option>
+					<option value="facile">Facile (+20%)</option>
+					<option value="accessible">Accessible (+10%)</option>
+					<option value="normal" selected="selected">Normal (+0%)</option>
+					<option value="complexe">Complexe (-10%)</option>
+					<option value="difficile">Difficile (-20%)</option>
+					<option value="tres-difficile">Très difficile (-30%)</option>
+					<option value="maudit">Maudit (-40%)</option>
+					</select>
+				</div>
+			</form>
+		`,
+					buttons: {
+						yes: {
+						icon: "<i class='fas fa-check'></i>",
+						label: 'Faire un jet',
+						callback: () => applyChanges = true
+						},
+						no: {
+						icon: "<i class='fas fa-times'></i>",
+						label: 'Annuler'
+						},
+					},
+					default: "yes",
+					close: html => {
+						if (applyChanges) {
+							let rollType = html.find('[name="roll-type"]')[0].value || "normal";
+							// Get Vision Type Values
+							switch (rollType) {
+							case "beni":
+								formInfos.rollType = "Béni"
+								formInfos.bonusType = 40
+								break;
+							case "tres-facile":
+								formInfos.rollType = "Très facile"
+								formInfos.bonusType = 30
+								break;
+							case "facile":
+								formInfos.rollType = "Facile"
+								formInfos.bonusType = 20
+								break;
+							case "accessible":
+								formInfos.rollType = "Accecssible"
+								formInfos.bonusType = 10
+								break;
+							case "normal":
+								formInfos.rollType = "Normal"
+								formInfos.bonusType = 0
+								break;
+							case "complexe":
+								formInfos.rollType = "Complexe"
+								formInfos.bonusType = -10
+								break;
+							case "difficile":
+								formInfos.rollType = "Difficile"
+								formInfos.bonusType = -20
+								break;
+							case "tres-difficile":
+								formInfos.rollType = "Très difficile"
+								formInfos.bonusType = -30
+								break;
+							case "maudit":
+								formInfos.rollType = "Maudit"
+								formInfos.bonusType = -40
+								break;
+							default:
+								formInfos.rollType = "Normal"
+								formInfos.bonusType = 0
+							}
+							game.boilerplate.rollItemMacro(itemName, formInfos);
+						}
+					}
+				}).render(true);
+			}
+		} catch(err) {
+			console.log(err);
+			return;
+		}
 	}
 }
