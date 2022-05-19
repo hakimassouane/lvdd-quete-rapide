@@ -85,6 +85,12 @@
       "templates": ["base"],
       "ancestry": null,
       "calling": null,
+      "inspiration": 0,
+      "currency": {
+        "copper": 0,
+        "silver": 0,
+        "gold": 0
+      },
       "details": {
         "biography": {
           "value": "",

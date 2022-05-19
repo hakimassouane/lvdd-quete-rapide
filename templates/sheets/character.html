@@ -22,10 +22,10 @@
                     <input name="name" type="text" value="{{actor.name}}" title="{{actor.name}}"/>
                 </div>
             </div>
-            <div class="character__perks">
+            <div class="character__inspiration">
                 <div class="field field--input">
-                    <label for="perks">{{localize 'common.perks'}}</label>
-                    <input type="number" value="{{data.data.perks.totalVisible}}" disabled/>
+                    <label for="data.inspiration">{{localize 'common.inspiration'}}</label>
+                    <input type="number" max="3" min="0" value="{{data.data.inspiration}}"/>
                 </div>
             </div>
             <div class="character__ancestry">
@@ -38,6 +38,24 @@
                 <div class="field field--input">
                     <label for="data.calling">{{localize 'common.calling'}}</label>
                     <input name="data.calling" type="text" value="{{data.data.calling}}" title="{{data.calling}}"/>
+                </div>
+            </div>
+            <div class="character__gold">
+                <div class="field field--input">
+                    <label for="data.currency.gold">{{localize 'common.currency.gold'}}</label>
+                    <input name="data.currency.gold" type="number" min="0" value="{{data.data.currency.gold}}" title="{{data.currency.gold}}"/>
+                </div>
+            </div>
+            <div class="character__silver">
+                <div class="field field--input">
+                    <label for="data.currency.silver">{{localize 'common.currency.silver'}}</label>
+                    <input name="data.currency.silver" type="number" min="0" value="{{data.data.currency.silver}}" title="{{data.currency.silver}}"/>
+                </div>
+            </div>
+            <div class="character__copper">
+                <div class="field field--input">
+                    <label for="data.currency.copper">{{localize 'common.currency.copper'}}</label>
+                    <input name="data.currency.copper" type="number" min="0" value="{{data.data.currency.copper}}" title="{{data.currency.copper}}"/>
                 </div>
             </div>
         </header>

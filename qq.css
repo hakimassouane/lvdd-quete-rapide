@@ -1152,7 +1152,7 @@
 
 .gqq-sheet--character .character__header {
   display: grid;
-  grid-template-columns: 8rem 1fr 1fr 8rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-row-gap: 0.5rem;
   grid-column-gap: 0.5rem;
   background: #b1b5ca;
@@ -1270,13 +1270,25 @@
   grid-column-gap: 1rem; }
 
 .gqq-sheet--character .character__name {
-  grid-column: 1 / span 3; }
+  grid-column: 1 / span 4; }
+
+.gqq-sheet--character .character__inspiration {
+  grid-column: 5 / span 2; }
 
 .gqq-sheet--character .character__ancestry {
-  grid-column: 1 / span 2; }
+  grid-column: 1 / span 3; }
 
 .gqq-sheet--character .character__calling {
+  grid-column: 4 / span 3; }
+
+.gqq-sheet--character .character__gold {
+  grid-column: 1 / span 2; }
+
+.gqq-sheet--character .character__silver {
   grid-column: 3 / span 2; }
+
+.gqq-sheet--character .character__copper {
+  grid-column: 5 / span 2; }
 
 .gqq-sheet--character .character__attributes,
 .gqq-sheet--character .character__archetypes {
