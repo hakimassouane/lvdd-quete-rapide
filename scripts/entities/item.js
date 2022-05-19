@@ -56,7 +56,7 @@ export default class ItemEntity extends Item {
         let generatedString = ""
 
 
-        if (item.data.skillBonus !== 0) {
+        if (item.data.skillBonus != 0) {
             generatedString += `<i>Bonus de compétence : ${item.data.skillBonus}% </i><br>`
         }
 

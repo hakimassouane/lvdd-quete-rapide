@@ -8,7 +8,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 			super.defaultOptions,
 			{
 				classes: ["window-gqq"],
-				height: 652,
+				height: 602,
 				width: 948,
 				template: 'systems/lvdd-quete-rapide/templates/sheets/character.html',
 				resizable: false,
@@ -83,6 +83,8 @@ export default class ActorSheetCharacter extends ActorSheet {
 			data: duplicate(event.currentTarget.dataset)
 		};
 		delete resourceData.data["type"];
+
+		resourceData.data.canBeRolled = true
 		return this.actor.createEmbeddedDocuments("Item", [resourceData]);
 	}
 

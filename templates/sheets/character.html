@@ -40,24 +40,6 @@
                     <input name="data.calling" type="text" value="{{data.data.calling}}" title="{{data.calling}}"/>
                 </div>
             </div>
-            <div class="character__gold">
-                <div class="field field--input">
-                    <label for="data.currency.gold">{{localize 'common.currency.gold'}}</label>
-                    <input name="data.currency.gold" type="number" min="0" value="{{data.data.currency.gold}}" title="{{data.currency.gold}}"/>
-                </div>
-            </div>
-            <div class="character__silver">
-                <div class="field field--input">
-                    <label for="data.currency.silver">{{localize 'common.currency.silver'}}</label>
-                    <input name="data.currency.silver" type="number" min="0" value="{{data.data.currency.silver}}" title="{{data.currency.silver}}"/>
-                </div>
-            </div>
-            <div class="character__copper">
-                <div class="field field--input">
-                    <label for="data.currency.copper">{{localize 'common.currency.copper'}}</label>
-                    <input name="data.currency.copper" type="number" min="0" value="{{data.data.currency.copper}}" title="{{data.currency.copper}}"/>
-                </div>
-            </div>
         </header>
         <div class="tabs__body character__body">
             <div class="tab tab--aspects" data-group="primary" data-tab="aspects">
@@ -215,10 +197,12 @@
                                                 {{#each item.data.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}
                                             </td>
                                             <td class="item__actions">
-                                                {{#if item.data.data.canBeRolled}}
-                                                <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
-                                                    <i class="fas fa-dice"></i>
-                                                </button>
+                                                {{#if item.data.data.canBeRolled }}
+                                                    {{#if item.data.data.rollStats.length }}
+                                                        <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
+                                                            <i class="fas fa-dice"></i>
+                                                        </button>
+                                                    {{/if}}
                                                 {{/if}}
                                                 <button type="button" class="item__action item__action--open" title="{{localize 'sheet.character.items.actions.inspect'}}">
                                                     <i class="fas fa-book-open"></i>
@@ -352,10 +336,12 @@
                                                 {{#each item.data.data.modifiers as | modifier id |}}{{numberFormat modifier.value decimals=0 sign=true}} {{modifier.name}}{{#unless @last}}, {{/unless}}{{/each}}
                                             </td>
                                             <td class="item__actions">
-                                                {{#if item.data.data.canBeRolled}}
-                                                <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
-                                                    <i class="fas fa-dice"></i>
-                                                </button>
+                                                {{#if item.data.data.canBeRolled }}
+                                                    {{#if item.data.data.rollStats.length }}
+                                                    <button type="button" class="item__action item__action--roll" title="{{localize 'common.roll'}}">
+                                                        <i class="fas fa-dice"></i>
+                                                    </button>
+                                                    {{/if}}
                                                 {{/if}}
                                                 <button type="button" class="item__action item__action--open" title="{{localize 'sheet.character.items.actions.inspect'}}">
                                                     <i class="fas fa-book-open"></i>
@@ -376,17 +362,17 @@
                     </section>
                     <footer class="fieldset__footer fieldset--items__controls">
                         <div class="fieldset--items__details">
-                            <div class="resources__count" title="{{localize 'common.counter.resources' count=data.data.resources.totalVisible}} {{#if data.data.resources.totalHidden}}({{localize 'common.counter.hidden' count=data.data.resources.totalHidden}}){{/if}}">
-                                <i class="fa fa-list"></i>{{data.data.resources.totalVisible}}
+                            <div class="resources__value" title="{{localize 'common.counter.gold' count=data.data.currency.gold}}">
+                                <i class="fa fa-coins" style="color: #fdd426;"></i>
+                                <input name="data.currency.gold" type="number" min="0" value="{{data.data.currency.gold}}" title="{{data.currency.gold}}"/>
                             </div>
-                            <div class="resources__equipped" title="{{localize 'common.counter.equipped' count=data.data.resources.totalEquipped}}">
-                                <i class="fa fa-hand-paper"></i>{{data.data.resources.totalEquipped}}
+                            <div class="resources__value" title="{{localize 'common.counter.silver' count=data.data.currency.silver}}">
+                                <i class="fa fa-coins" style="color: #e4eafb;"></i>
+                                <input name="data.currency.silver" type="number" min="0" value="{{data.data.currency.silver}}" title="{{data.currency.silver}}"/>
                             </div>
-                            <div class="resources__bulk" title="{{localize 'common.counter.bulk' count=data.data.resources.totalBulk}}">
-                                <i class="fa fa-weight-hanging"></i>{{data.data.resources.totalBulk}}
-                            </div>
-                            <div class="resources__value" title="{{localize 'common.counter.value' count=data.data.resources.totalValue}}">
-                                <i class="fa fa-coins"></i>{{data.data.resources.totalValue}}
+                            <div class="resources__value" title="{{localize 'common.counter.copper' count=data.data.currency.copper}}">
+                                <i class="fa fa-coins" style="color: #f58644;"></i>
+                                <input name="data.currency.copper" type="number" min="0" value="{{data.data.currency.copper}}" title="{{data.currency.copper}}"/>
                             </div>
                         </div>
                         <button type="button" class="item__action item__action--add" title="{{localize 'sheet.character.resources.actions.add'}}">

@@ -2302,6 +2302,10 @@
   display: flex;
   margin-top: 0.5rem; }
 
+.gqq-sheet .fieldset--items .fieldset--items__controls {
+  display: flex;
+  margin-top: 0.5rem; }
+
 .gqq-sheet .fieldset--items .fieldset--items__details {
   background: white;
   border-radius: 1rem 0 0 1rem;
@@ -2324,6 +2328,13 @@
     background: black;
     color: white;
     font-size: 0.6em; }
+  .gqq-sheet .fieldset--items .fieldset--items__details input {
+    width: 3rem;
+    background: none;
+    border: none;
+    height: auto;
+    text-align: center;
+    font-weight: 700; }
   .gqq-sheet .fieldset--items .fieldset--items__details > * {
     display: flex;
     justify-content: center;

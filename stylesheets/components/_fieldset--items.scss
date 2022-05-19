@@ -212,6 +212,15 @@ $items--row--background--even: mix(#dde0eb, #b1b5ca, 60%);
             font-size: 0.6em;
         }
 
+        input {
+            width: 3rem;
+            background: none;
+            border: none;
+            height: auto;
+            text-align: center;
+            font-weight: 700;
+        }
+
         > * {
             display: flex;
             justify-content: center;

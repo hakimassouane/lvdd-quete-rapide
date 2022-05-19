@@ -203,8 +203,9 @@ Hooks.once("ready", async function() {
 	if (speaker.token) actor = game.actors.tokens[speaker.token];
 	if (!actor) actor = game.actors.get(speaker.actor);
 	const item = actor ? actor.items.find(i => i.name === itemName) : null;
-	if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
-	if (!item.data.data.canBeRolled) return ui.notifications.warn(`The item "${itemName}" is no longer rollable, make it rollable before using the macro again`);
+	if (!item) return ui.notifications.warn(`Le token selectionné ne possède pas d'équipement ou de compétence nommé "${itemName}".`);
+	if (!item.data.data.canBeRolled) return ui.notifications.warn(`L'équipement ou la compétence"${itemName}" n'est plus rollable, rendez le / la rollable avant de refaire un roll.`);
+	if (!item.data.data.rollStats || item.data.data.rollStats.length === 0) return ui.notifications.warn(`L'équipement ou la compétence "${itemName}" ne possède aucune statistiques de roll associé. Veuillez en ajouter une.`);
   
 	return item.roll(formInfos);
   }
