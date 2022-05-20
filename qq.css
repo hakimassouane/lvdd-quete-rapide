@@ -2270,6 +2270,9 @@
   .gqq-sheet .fieldset--items .item__actions .item__action i {
     margin: 0; }
 
+.gqq-sheet .fieldset--items .item__action--order-by-name {
+  cursor: pointer; }
+
 .gqq-sheet .fieldset--items .item--rarity--uncommon .item__title input {
   color: #299821; }
 
@@ -2297,10 +2300,6 @@
     font-weight: 500;
     font-size: smaller;
     padding: 0; }
-
-.gqq-sheet .fieldset--items .fieldset--items__controls {
-  display: flex;
-  margin-top: 0.5rem; }
 
 .gqq-sheet .fieldset--items .fieldset--items__controls {
   display: flex;

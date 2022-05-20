@@ -2,6 +2,11 @@ import CharacterRollDialog from "../dialogs/character-roll.js";
 
 export default class ActorSheetCharacter extends ActorSheet {
 
+	constructor(actor, options = {}){
+		super(actor, options)
+		this.orderNameAsc = true;
+	}
+
 	/** @override */
 	static get defaultOptions() {
 		return mergeObject(
@@ -38,6 +43,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 			html.find('.character__perks .item__action--add').click(this._onPerkAdd.bind(this));
 			html.find('.character__skills .item__action--add').click(this._onSkillAdd.bind(this));
 			html.find('.resource__action--toggle-equipped').click(this._onResourceToggleEquipped.bind(this));
+			html.find('.item__action--order-by-name').click(this._onItemOrderByName.bind(this));
 			html.find('.item__action--roll').click(this._onMakeRollItem.bind(this));
 			html.find('.item__action--toggle-hidden').click(this._onItemToggleHidden.bind(this));
 			html.find('.item .item__icon img, .item__action--open').click(this._onItemOpen.bind(this));
@@ -374,5 +380,28 @@ export default class ActorSheetCharacter extends ActorSheet {
 			console.log(err);
 			return;
 		}
+	}
+
+	async _onItemOrderByName(event) {
+		event.preventDefault();
+		const itemArray = [...this.actor.items]
+		let i = 0
+
+		itemArray.sort((a, b) => a.name.localeCompare(b.name))
+		if (!this.orderNameAsc) {
+			itemArray.reverse()
+		} 
+		
+		itemArray.forEach(item => {
+			item.data.sort = i;
+			i++
+		})
+
+		const updates = itemArray.map((item) => { 
+			return {_id: item.id, 'sort': item.data.sort} 
+		});
+
+		this.orderNameAsc = !this.orderNameAsc
+		await this.actor.updateEmbeddedDocuments('Item', updates);
 	}
 }

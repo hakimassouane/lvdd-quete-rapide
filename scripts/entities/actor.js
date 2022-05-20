@@ -36,6 +36,8 @@ export default class ActorEntity extends Actor {
 	
 
 	_getResources(items) {
+		items.sort((a, b) => a.data.sort - b.data.sort)
+		
 		let resources = {
 			items: items,
 			totalVisible: 0,
@@ -64,6 +66,8 @@ export default class ActorEntity extends Actor {
 	}
 
 	_getPerks(items) {
+		items.sort((a, b) => a.data.sort - b.data.sort)
+
 		let perks = {
 			items: items,
 			totalVisible: 0,
@@ -80,6 +84,8 @@ export default class ActorEntity extends Actor {
 	}
 
 	_getSkills(items) {
+		items.sort((a, b) => a.data.sort - b.data.sort)
+
 		let skills = {
 			items: items,
 			totalVisible: 0,

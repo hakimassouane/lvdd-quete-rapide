@@ -130,6 +130,10 @@ $items--row--background--even: mix(#dde0eb, #b1b5ca, 60%);
         }
     }
 
+    .item__action--order-by-name {
+        cursor: pointer;
+    }
+
     .item--rarity--uncommon {
 
         .item__title input {
