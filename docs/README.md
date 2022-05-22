@@ -6,7 +6,11 @@
 [![Twitter](https://img.shields.io/twitter/follow/lavolontedude?color=%231DA1F2&style=flat-square)](http://twitter.com/lavolontedude)
 [![Twitch](https://img.shields.io/twitch/status/lavolontedude?color=%23a45ee5&style=flat-square)](http://twitch.tv/lavolontedude)
 
-Vous cherchez un systeme D100 simple, rapide et efficace pour vos parties de JDR sur [Foundry VTT](https://foundryvtt.com/)? Pas d'inquiétude—**LVDD - Quête rapide** est là ! Commencez à jouer à un jeu de rôle facile à prendre en main en quelques minutes grâce à une feuille de personnage simple, du d100 et une gestion de compétences et d'inventaire bien pensée.
+Vous cherchez un systeme D100 simple, rapide et efficace pour vos parties de JDR sur [Foundry VTT](https://foundryvtt.com/)?
+
+Pas d'inquiétude**LVDD - Quête rapide** est là ! 
+
+Commencez à jouer à un jeu de rôle facile à prendre en main en quelques minutes grâce à une feuille de personnage simple, du d100 et une gestion de compétences et d'inventaire bien pensée.
 
 * Installer le système : https://raw.githubusercontent.com/hakimassouane/lvdd-quete-rapide/master/system.json
 * [Lire le Changelog](https://github.com/hakimassouane/lvdd-quete-rapide/blob/master/docs/CHANGELOG.md) 
@@ -24,8 +28,8 @@ Vous cherchez un systeme D100 simple, rapide et efficace pour vos parties de JDR
 1. Installer et activer le système.
    * URL du système: https://raw.githubusercontent.com/hakimassouane/lvdd-quete-rapide/master/system.json
 2. Créez un nouvel **Acteur**. Personnalisez votre acteur en définissant ses attributs et ses archétypes.
-3. Créez un nouvel object d'**Inventaire**. Personnalisez-le et faites-le glisser sur votre acteur.
-4. Créez une nouvelle **Compétence**. Personnalisez-le et faites-le glisser sur votre acteur.
+3. Créez un nouvel **Objet**. Personnalisez-le et faites-le glisser sur votre acteur.
+4. Créez une nouvelle **Compétence**. Personnalisez-la et faites-la glisser sur votre acteur.
 
 ![Quick Quest Items](./img/quick-quest-items.jpg)
 
