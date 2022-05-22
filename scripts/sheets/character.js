@@ -159,7 +159,6 @@ export default class ActorSheetCharacter extends ActorSheet {
     generateStatsToRollString(form) {
         let generatedString = `Stats : ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) + " " + this.actor.data.data.attributes[form.attribute].total + "% + " : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) + " " + this.actor.data.data.archetypes[form.archetype].total + "% + " : ""}`
 
-		console.log('generated string => ', generatedString)
         return generatedString.slice(0, -3)
     }
 
