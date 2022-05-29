@@ -249,7 +249,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 				content: `
 				<div>
 					<div style="display: flex; align-items:center; margin-bottom: 0.5rem;">
-						<img src="${ChatMessage.getSpeakerActor(ChatMessage.getSpeaker()).img}" width="36" height="36">
+						<img src="${this.actor.img}" width="36" height="36">
 						<h2 class="item-name" style="margin: 0.5rem 0.3rem;">
 							<b>Jet de ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) : ""}</b>
 						</h2>
