@@ -1381,7 +1381,8 @@
 
 .gqq-sheet--character .character__appearance img {
   border: none;
-  border-radius: 0.75rem; }
+  border-radius: 0.75rem;
+  max-height: 100%; }
   .gqq-sheet--character .character__appearance img:focus {
     box-shadow: 0 0 0 3px #6c20a9;
     outline: none; }
