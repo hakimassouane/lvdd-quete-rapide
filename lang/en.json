@@ -47,6 +47,8 @@
     "common.minimum": "Minimum",
     "common.max": "Max",
     "common.maximum": "Maximum",
+    "common.temp": "Temporary",
+    "common.tempmax": "Temporary Max",
     "common.miscellaneous": "Miscellaneous",
     "common.resource": "Resource",
     "common.resources": "Resources",
