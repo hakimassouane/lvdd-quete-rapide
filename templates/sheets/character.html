@@ -153,14 +153,21 @@
                     <header class="fieldset__header">{{localize 'common.res.name'}}</header>
                     <section class="fieldset__body">
                         <div class="resolve__used">
-                            <input name="data.resolve.current.value" type="number" value="{{data.data.resolve.current.value}}" min="0" max="{{data.data.resolve.maximum.total}}">
-                            <span> </span>
+                            <input name="data.resolve.value" type="number" value="{{data.data.resolve.value}}" min="0" max="{{data.data.resolve.max}}">
                             <span>{{localize 'common.current'}}</span>
                         </div>
                         <div class="resolve__maximum">
-                            <input name="data.resolve.maximum.base" type="number" value="{{data.data.resolve.maximum.base}}" title="{{#each data.data.resolve.maximum.sources as | source id |}}{{localize 'sheet.character.source' value=source.value source=source.source}}{{#unless @last}},&#010;{{/unless}}{{/each}}">
-                            <span class="resolve__maximum__value resolve__maximum__value--{{data.data.resolve.maximum.class}}">{{data.data.resolve.maximum.total}}</span>
+                            <input name="data.resolve.base" type="number" value="{{data.data.resolve.base}}" title="{{#each data.data.resolve.sources as | source id |}}{{localize 'sheet.character.source' value=source.value source=source.source}}{{#unless @last}},&#010;{{/unless}}{{/each}}">
+                            <span class="resolve__total resolve__total--{{data.data.resolve.class}}">{{data.data.resolve.max}}</span>
                             <span>{{localize 'common.maximum'}}</span>
+                        </div>
+                        <div class="resolve__temp">
+                            <input name="data.resolve.temp" type="number" value="{{data.data.resolve.temp}}" min="0">
+                            <span>{{localize 'common.temp'}}</span>
+                        </div>
+                        <div class="resolve__tempmax">
+                            <input name="data.resolve.tempmax" type="number" value="{{data.data.resolve.tempmax}}">
+                            <span>{{localize 'common.tempmax'}}</span>
                         </div>
                     </section>
                 </div>

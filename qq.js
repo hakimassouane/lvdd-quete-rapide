@@ -6,8 +6,8 @@ import ItemSheetPerk from './scripts/sheets/perk.js';
 import ItemSheetSkill from './scripts/sheets/skill.js';
 import ActorEntity from './scripts/entities/actor.js';
 import ItemEntity from './scripts/entities/item.js';
-import TokenDocumentEntity from './scripts/entities/token.js';
 import CharacterRollDialog from "./scripts/dialogs/character-roll.js";
+import { TokenDocumentQueteRapide, TokenQueteRapide } from './scripts/entities/token.js';
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -19,7 +19,8 @@ Hooks.once("init", function() {
 	game.boilerplate = {
 		ActorEntity,
 		ItemEntity,
-		TokenDocumentEntity,
+		TokenDocumentQueteRapide,
+		TokenQueteRapide,
 		rollItemMacro,
 		handleTokenActionHudItems,
 		handleTokenActionHudStats
@@ -27,7 +28,8 @@ Hooks.once("init", function() {
 
 	CONFIG.Actor.documentClass  = ActorEntity;
   	CONFIG.Item.documentClass  = ItemEntity;
-	CONFIG.Token.documentClass  = TokenDocumentEntity;
+	CONFIG.Token.documentClass  = TokenDocumentQueteRapide;
+	CONFIG.Token.objectClass = TokenQueteRapide;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);

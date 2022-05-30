@@ -1303,44 +1303,7 @@
   font-weight: bold;
   color: black;
   padding-bottom: 0.5rem;
-  border-color: #b1b5ca;
-  /*             .resolve__maximum {
-                position: relative;
-
-                input {
-                    position: absolute;
-                    opacity: 0;
-                    top: 0;
-    
-                    &:focus {
-                        opacity: 1;
-                    }
-                }
-            }
-
-            .resolve__maximum__value {
-                width: 100%;
-                border: 0;
-                padding: 0;
-                border-radius: 1cm;
-                text-align: center;
-                font-size: 2em;
-                margin: 0 0 0.5rem;
-                line-height: 1.2;
-                height: auto;
-                background: $character--resolve--background;
-                border: 3px solid $character--resolve--border--color;
-                font-family: 'Londrina Solid';
-                font-weight: 400;
-
-                &.resolve__maximum__value--higher {
-                    color: green;
-                }
-        
-                &.resolve__maximum__value--lower {
-                    color: red;
-                }
-            } */ }
+  border-color: #b1b5ca; }
   .gqq-sheet--character .character__resolve .fieldset__body > * {
     flex-grow: 0;
     justify-content: center;
@@ -1366,11 +1329,54 @@
     color: green; }
   .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum__value--lower {
     color: red; }
+  .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum {
+    position: relative; }
+    .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum input {
+      opacity: 0;
+      top: 0;
+      position: absolute; }
+      .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum input:focus {
+        opacity: 1; }
+  .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum__value {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    border-radius: 1cm;
+    text-align: center;
+    font-size: 2em;
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+    height: auto;
+    background: white;
+    border: 3px solid #b1b5ca;
+    font-family: 'Londrina Solid';
+    font-weight: 400; }
+    .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum__value.resolve__maximum__value--higher {
+      color: green; }
+    .gqq-sheet--character .character__resolve .fieldset__body .resolve__maximum__value.resolve__maximum__value--lower {
+      color: red; }
   .gqq-sheet--character .character__resolve .fieldset__body span {
     font-size: 12px;
     font-weight: bold;
     color: black;
     font-family: "Source Sans Pro"; }
+  .gqq-sheet--character .character__resolve .fieldset__body .resolve__total {
+    width: 100%;
+    padding: 0;
+    border-radius: 1cm;
+    text-align: center;
+    font-size: 2em;
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+    height: auto;
+    background: white;
+    border: 3px solid #b1b5ca;
+    font-family: 'Londrina Solid';
+    font-weight: 500; }
+    .gqq-sheet--character .character__resolve .fieldset__body .resolve__total.resolve__total--higher {
+      color: green; }
+    .gqq-sheet--character .character__resolve .fieldset__body .resolve__total.resolve__total--lower {
+      color: red; }
 
 .gqq-sheet--character .character__appearance .fieldset__body {
   padding: 0.25rem;

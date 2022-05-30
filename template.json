@@ -98,15 +98,14 @@
         }
       },
       "resolve": {
-        "current": {
-          "value": 10,
-          "min": 0,
-          "max": 10
-        },
-        "maximum": {
-          "base": 10,
-          "total": 10
-        }
+        "value": 10,
+        "base": 10,
+        "min": 0,
+        "temp": 0,
+        "tempmax": 0,
+        "sources": 0,
+        "class": 0,
+        "max": 0
       }
     },
     "htmlFields": ["details.biography.value", "details.biography.public"]

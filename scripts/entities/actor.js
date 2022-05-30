@@ -25,14 +25,48 @@ export default class ActorEntity extends Actor {
 
 	/** @inheritdoc */
 	async modifyTokenAttribute(attribute, value, isDelta = false, isBar = true) {
-		const current = foundry.utils.getProperty(this.data.data, attribute);
+		if ( attribute === "resolve" ) {
+			const hp = getProperty(this.data.data, attribute);
+			const delta = isDelta ? (-1 * value) : (hp.value + hp.temp) - value;
+			return this.applyDamage(delta);
+		  }
+		return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+	}
+
+	/**
+   * Apply a certain amount of damage or healing to the health pool for Actor
+   * @param {number} amount       An amount of damage (positive) or healing (negative) to sustain
+   * @param {number} multiplier   A multiplier which allows for resistance, vulnerability, or healing
+   * @returns {Promise<Actor5e>}  A Promise which resolves once the damage has been applied
+   */
+	async applyDamage(amount=0, multiplier=1) {
+		amount = Math.floor(parseInt(amount) * multiplier);
+		const hp = this.data.data.resolve;
+	
+		// Deduct damage from temp HP first
+		const tmp = parseInt(hp.temp) || 0;
+		const dt = amount > 0 ? Math.min(tmp, amount) : 0;
+	
+		// Remaining goes to health
+		const tmpMax = parseInt(hp.tempmax) || 0;
+		const dh = Math.clamped(hp.value - (amount - dt), 0, hp.max + tmpMax);
+	
+		// Update the Actor
 		const updates = {
-			[`data.${attribute}.value`]: Math.clamped(current.value + value, current.min, current.max),
-			[`data.${attribute}.max`]: this.data.data.resolve.maximum.total
+		  "data.resolve.temp": tmp - dt,
+		  "data.resolve.value": dh
 		};
-		const allowed = Hooks.call("modifyTokenAttribute", {attribute, value, isDelta, isBar}, updates);
-		return allowed !== false ? this.update(updates) : this;
-	  }
+	
+		// Delegate damage application to a hook
+		// TODO replace this in the future with a better modifyTokenAttribute function in the core
+		const allowed = Hooks.call("modifyTokenAttribute", {
+		  attribute: "resolve",
+		  value: amount,
+		  isDelta: false,
+		  isBar: true
+		}, updates);
+		return allowed !== false ? this.update(updates, {dhp: -amount}) : this;
+	}
 	
 
 	_getResources(items) {
@@ -177,20 +211,20 @@ export default class ActorEntity extends Actor {
 	}
 
 	_applyResolveModifier(actor, modifier) {
-		if (!actor.data.resolve.maximum.modifier) {
-			actor.data.resolve.maximum.modifier = 0;
+		if (!actor.data.resolve.modifier) {
+			actor.data.resolve.modifier = 0;
 		}
-		if (!actor.data.resolve.maximum.sources) {
-			actor.data.resolve.maximum.sources = [{
-				value: (actor.data.resolve.maximum.base > 0 ? `+${actor.data.resolve.maximum.base}` : actor.data.resolve.maximum.base),
+		if (!actor.data.resolve.sources) {
+			actor.data.resolve.sources = [{
+				value: actor.data.resolve.base,
 				source: `base`
 			}];
 		}
 		if (modifier) {
-			actor.data.resolve.maximum.modifier = modifier.total;
-			actor.data.resolve.maximum.sources = actor.data.resolve.maximum.sources.concat(modifier.sources);
+			actor.data.resolve.modifier = modifier.total;
+			actor.data.resolve.sources = actor.data.resolve.sources.concat(modifier.sources);
 		}
-		actor.data.resolve.maximum.total = actor.data.resolve.maximum.base + actor.data.resolve.maximum.modifier;
-        actor.data.resolve.maximum.class = (actor.data.resolve.maximum.modifier == 0) ? "neutral" : (actor.data.resolve.maximum.modifier > 0) ? "higher" : "lower";
+		actor.data.resolve.max = actor.data.resolve.sources.reduce((a, b) => +a + +b.value, 0);
+		actor.data.resolve.class = (actor.data.resolve.modifier == 0) ? "neutral" : (actor.data.resolve.modifier > 0) ? "higher" : "lower";
 	}
 }
