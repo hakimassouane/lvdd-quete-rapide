@@ -2,7 +2,7 @@
   "name": "lvdd-quete-rapide",
   "title": "Quête Rapide - LVDD",
   "description": "Des règles de rpg rapides.",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "author": "LVDD",
   "scripts": [],
   "esmodules": ["qq.js"],
@@ -54,5 +54,5 @@
   "compatibleCoreVersion": "9",
   "url": "https://lavolontedude.com",
   "manifest": "https://raw.githubusercontent.com/hakimassouane/lvdd-quete-rapide/master/system.json",
-  "download": "https://github.com/hakimassouane/lvdd-quete-rapide/archive/refs/tags/v1.1.1.zip"
+  "download": "https://github.com/hakimassouane/lvdd-quete-rapide/archive/refs/tags/v1.1.2.zip"
 }
