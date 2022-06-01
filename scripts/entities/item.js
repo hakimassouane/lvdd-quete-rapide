@@ -52,7 +52,7 @@ export default class ItemEntity extends Item {
         return generatedString.slice(0, -3)
     }
 
-    generateRollBonusInfo(item, formInfos) {
+    generateRollBonusInfo(item, formInfos, actor) {
         let generatedString = ""
 
 
@@ -62,6 +62,10 @@ export default class ItemEntity extends Item {
 
         if (Object.keys(formInfos).length !== 0 && formInfos.bonusType !== 0) {
             generatedString += `<i>${formInfos.rollType} : ${formInfos.bonusType}%</i><br>`
+        }
+
+        if (Object.keys(formInfos).length !== 0 && (formInfos.consumeInspiration && actor.data.data.inspiration > 0)) {
+            generatedString += `<i>Inspiration : 10%</i><br>`
         }
 
         return generatedString
@@ -89,7 +93,7 @@ export default class ItemEntity extends Item {
             }
         })
 
-        toBeat += parseInt(item.data.skillBonus) + (formInfos.bonusType || 0)
+        toBeat += parseInt(item.data.skillBonus) + (formInfos.bonusType || 0) + (formInfos.consumeInspiration && actorData.inspiration > 0 ? 10 : 0)
         if (toBeat > 100) {
             toBeat = 100
         } else if (toBeat < 0) {
@@ -114,7 +118,7 @@ export default class ItemEntity extends Item {
                 </div>
                 <p class="item-name" style="margin: 0.5rem 0.3rem;">
                     <i>${this.generateStatsToRollString(rolledStats)}</i><br>
-                    ${this.generateRollBonusInfo(item, formInfos)}
+                    ${this.generateRollBonusInfo(item, formInfos, this.actor)}
                     <i>Taux de réussite : ${toBeat}%</i>
                 </p>
                 <div class="dice-roll">
@@ -136,5 +140,9 @@ export default class ItemEntity extends Item {
             </div>
             `
         });
+
+        if (this.actor && formInfos.consumeInspiration && actorData.inspiration > 0) {
+            this.actor.update({ 'data.inspiration': actorData.inspiration -= 1 });
+        }
     }
 }

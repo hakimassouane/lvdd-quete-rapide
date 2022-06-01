@@ -162,9 +162,10 @@ export default class ActorSheetCharacter extends ActorSheet {
         return generatedString.slice(0, -3)
     }
 
-    generateRollBonusInfo(form) {
+    generateRollBonusInfo(actor, form) {
 		let rollType = ""
 		let bonusAmount = 0
+		let finalString = ""
 
 		switch (form.bonus) {
 			case "beni":
@@ -208,29 +209,42 @@ export default class ActorSheetCharacter extends ActorSheet {
 				bonusAmount = 0
 			}
 
-        return {
+		if (bonusAmount !== 0) {
+			finalString += `<i>${rollType} : ${bonusAmount}%</i><br>`
+		}
+		if (form.consumeInspiration && actor.data.data.inspiration > 0) {
+			finalString += `<i>Inspiration : 10%</i><br>`
+		}
+
+		return {
 			bonusAmount,
 			rollType,
-			finalString: bonusAmount !== 0 ? `<i>${rollType} : ${bonusAmount}%</i><br>` : ""
+			consumeInspiration: form.consumeInspiration,
+			finalString
 		}
-    }
+	}
 
 	async _onMakeRollStats(event) {
 		event.preventDefault();
 		let preselectedAttribute = event.currentTarget.closest(".attribute") ? event.currentTarget.closest(".attribute").getAttribute("data-attribute") : null;
 		try {
 			const form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preselectedAttribute});
-			const formInfos = this.generateRollBonusInfo(form)
+			const formInfos = this.generateRollBonusInfo(this.actor, form)
 			const roll = await new Roll("1d100").roll();
 			let toBeat = formInfos.bonusAmount
 			let contentDices = []
 
-			if (this.actor.data.data.attributes[form.attribute]) {
-				toBeat += this.actor.data.data.attributes[form.attribute].total
-			}
-			if (this.actor.data.data.archetypes[form.archetype]) {
-				toBeat += this.actor.data.data.archetypes[form.archetype].total
-			}
+			toBeat += this.actor.data.data.attributes[form.attribute]
+			? this.actor.data.data.attributes[form.attribute].total
+			: 0
+
+			toBeat += this.actor.data.data.archetypes[form.archetype]
+			? this.actor.data.data.archetypes[form.archetype].total
+			: 0
+
+			toBeat += formInfos.consumeInspiration && this.actor.data.data.inspiration > 0
+			? 10
+			: 0
 
 			if (toBeat > 100) {
 				toBeat = 100
@@ -278,6 +292,9 @@ export default class ActorSheetCharacter extends ActorSheet {
 				</div>
 				`
 			});
+			if (formInfos.consumeInspiration && this.actor.data.data.inspiration > 0) {
+				this.actor.update({ 'data.inspiration': this.actor.data.data.inspiration -= 1 });
+			}
 		} catch(err) {
 			console.log(err);
 			return;
@@ -311,6 +328,10 @@ export default class ActorSheetCharacter extends ActorSheet {
 					<option value="maudit">Maudit (-40%)</option>
 					</select>
 				</div>
+				<div class="form-group">
+					<input type="checkbox" id="inspiration" name="inspiration">
+					<label for="inspiration">Utiliser un point d'inspiration ?</label>
+				</div>
 			</form>
 		`,
 					buttons: {
@@ -328,6 +349,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 					close: html => {
 						if (applyChanges) {
 							let rollType = html.find('[name="roll-type"]')[0].value || "normal";
+
 							// Get Vision Type Values
 							switch (rollType) {
 							case "beni":
@@ -370,6 +392,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 								formInfos.rollType = "Normal"
 								formInfos.bonusType = 0
 							}
+							formInfos.consumeInspiration = html.find('[name="inspiration"]')[0].checked;
 							game.boilerplate.rollItemMacro(itemName, formInfos);
 						}
 					}

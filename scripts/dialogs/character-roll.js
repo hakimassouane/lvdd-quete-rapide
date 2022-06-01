@@ -11,7 +11,7 @@ export default class CharacterRollDialog extends Dialog {
 			template: "systems/lvdd-quete-rapide/templates/dialogs/character-roll.html",
 			classes: ["window-gqq"],
 			width: 450,
-			height: 545,
+			height: 570,
 			resizable: false
 		});
 	}
@@ -56,7 +56,8 @@ export default class CharacterRollDialog extends Dialog {
 				"archetype": form.querySelector("[name='archetype']:checked") ? form.querySelector("[name='archetype']:checked").value : null,
 				"advantage": advantage,
 				"bonus": form.querySelector("[name='bonus']").value,
-				"mode": form.querySelector("[name='mode']").value
+				"mode": form.querySelector("[name='mode']").value,
+				"consumeInspiration": form.querySelector("[name='inspiration']").checked
 			};
 		}
 		return new Promise((resolve, reject) => {

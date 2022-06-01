@@ -106,6 +106,10 @@ Hooks.once("ready", async function() {
 					<option value="maudit">Maudit (-40%)</option>
 					</select>
 				</div>
+				<div class="form-group">
+					<input type="checkbox" id="inspiration" name="inspiration">
+					<label for="inspiration">Utiliser un point d'inspiration ?</label>
+				</div>
 			</form>
 		`;
 		
@@ -175,6 +179,7 @@ Hooks.once("ready", async function() {
 								formInfos.rollType = "Normal"
 								formInfos.bonusType = 0
 							}
+							formInfos.consumeInspiration = html.find('[name="inspiration"]')[0].checked;
 							game.boilerplate.rollItemMacro("${item.name}", formInfos);
 						}
 					}
@@ -237,6 +242,10 @@ Hooks.once("ready", async function() {
 					<option value="tres-difficile">Très difficile (-30%)</option>
 					<option value="maudit">Maudit (-40%)</option>
 					</select>
+				</div>
+				<div class="form-group">
+					<input type="checkbox" id="inspiration" name="inspiration">
+					<label for="inspiration">Utiliser un point d'inspiration ?</label>
 				</div>
 			</form>
 		`;
@@ -307,6 +316,7 @@ Hooks.once("ready", async function() {
 							formInfos.rollType = "Normal"
 							formInfos.bonusType = 0
 						}
+						formInfos.consumeInspiration = html.find('[name="inspiration"]')[0].checked;
 						game.boilerplate.rollItemMacro(itemName, formInfos);
 					}
 				}
@@ -341,9 +351,10 @@ Hooks.once("ready", async function() {
 		return generatedString.slice(0, -3)
 	}
 
-	function generateRollBonusInfo(form) {
+	function generateRollBonusInfo(actor, form) {
 		let rollType = ""
 		let bonusAmount = 0
+		let finalString = ""
 
 		switch (form.bonus) {
 			case "beni":
@@ -387,10 +398,18 @@ Hooks.once("ready", async function() {
 				bonusAmount = 0
 			}
 
+		if (bonusAmount !== 0) {
+			finalString += `<i>${rollType} : ${bonusAmount}%</i><br>`
+		}
+		if (form.consumeInspiration && actor.data.data.inspiration > 0) {
+			finalString += `<i>Inspiration : 10%</i><br>`
+		}
+
 		return {
 			bonusAmount,
 			rollType,
-			finalString: bonusAmount !== 0 ? `<i>${rollType} : ${bonusAmount}%</i><br>` : ""
+			consumeInspiration: form.consumeInspiration,
+			finalString
 		}
 	}
 
@@ -403,17 +422,22 @@ Hooks.once("ready", async function() {
    	async function handleTokenActionHudStats(actor, preSelectedStatName) {
 		try {
 			const form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preSelectedStatName});
-			const formInfos = generateRollBonusInfo(form)
+			const formInfos = generateRollBonusInfo(actor, form)
 			const roll = await new Roll("1d100").roll();
 			let toBeat = formInfos.bonusAmount
 			let contentDices = []
 
-			if (actor.data.data.attributes[form.attribute]) {
-				toBeat += actor.data.data.attributes[form.attribute].total
-			}
-			if (actor.data.data.archetypes[form.archetype]) {
-				toBeat += actor.data.data.archetypes[form.archetype].total
-			}
+			toBeat += actor.data.data.attributes[form.attribute]
+			? actor.data.data.attributes[form.attribute].total
+			: 0
+
+			toBeat += actor.data.data.archetypes[form.archetype]
+			? actor.data.data.archetypes[form.archetype].total
+			: 0
+
+			toBeat += formInfos.consumeInspiration && actor.data.data.inspiration > 0
+			? 10
+			: 0
 
 			if (toBeat > 100) {
 				toBeat = 100
@@ -461,6 +485,9 @@ Hooks.once("ready", async function() {
 				</div>
 				`
 			});
+			if (formInfos.consumeInspiration && actor.data.data.inspiration > 0) {
+				actor.update({ 'data.inspiration': actor.data.data.inspiration -= 1 });
+			}
 		} catch(err) {
 			console.log(err);
 			return;
