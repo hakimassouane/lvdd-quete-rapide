@@ -8,6 +8,7 @@ import ActorEntity from './scripts/entities/actor.js';
 import ItemEntity from './scripts/entities/item.js';
 import CharacterRollDialog from "./scripts/dialogs/character-roll.js";
 import { TokenDocumentQueteRapide, TokenQueteRapide } from './scripts/entities/token.js';
+import { _getInitiativeFormula } from "./scripts/helpers/combat.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -30,6 +31,8 @@ Hooks.once("init", function() {
   	CONFIG.Item.documentClass  = ItemEntity;
 	CONFIG.Token.documentClass  = TokenDocumentQueteRapide;
 	CONFIG.Token.objectClass = TokenQueteRapide;
+
+	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
