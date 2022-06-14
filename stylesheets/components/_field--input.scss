@@ -17,6 +17,35 @@
         border-radius: 1rem 0 0 1rem;
     }
 
+    select {
+        border: none;
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        text-overflow: ellipsis;
+        background: white;
+        border-radius: 1rem;
+        padding: 0 1rem;
+        margin-left: -1rem;
+        color: rgb(25, 24, 19);
+        font-family: 'Londrina Solid';
+        font-weight: 400;
+        font-size: 21px;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.7rem center;
+        background-size: 1em;
+        appearance: none;
+
+        option {
+            background: #dde0eb;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 3px #6c20a9;
+        }
+    }
+
     input {
         background: none;
         border: none;

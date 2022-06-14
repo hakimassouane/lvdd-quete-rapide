@@ -825,6 +825,29 @@
     padding: 0 1.5rem 0 1rem;
     letter-spacing: 0.5px;
     border-radius: 1rem 0 0 1rem; }
+  .gqq-sheet .field--input select {
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    text-overflow: ellipsis;
+    background: white;
+    border-radius: 1rem;
+    padding: 0 1rem;
+    margin-left: -1rem;
+    color: #191813;
+    font-family: 'Londrina Solid';
+    font-weight: 400;
+    font-size: 21px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1em;
+    appearance: none; }
+    .gqq-sheet .field--input select option {
+      background: #dde0eb; }
+    .gqq-sheet .field--input select:focus {
+      box-shadow: 0 0 0 3px #6c20a9; }
   .gqq-sheet .field--input input {
     background: none;
     border: none;
@@ -1279,6 +1302,12 @@
   grid-column: 1 / span 3; }
 
 .gqq-sheet--character .character__calling {
+  grid-column: 4 / span 3; }
+
+.gqq-sheet--character .character__size {
+  grid-column: 1 / span 3; }
+
+.gqq-sheet--character .character__species {
   grid-column: 4 / span 3; }
 
 .gqq-sheet--character .character__gold {

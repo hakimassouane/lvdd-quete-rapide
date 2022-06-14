@@ -40,6 +40,44 @@
                     <input name="data.calling" type="text" value="{{data.data.calling}}" title="{{data.calling}}"/>
                 </div>
             </div>
+            <div class="character__size">
+                <div class="field field--input">
+                    <label for="data.size">{{localize 'common.size'}}</label>
+                    <select name="data.size">
+                        {{#select data.data.size}}
+                            <option value="tiny">{{localize 'common.sizes.tiny'}}</option>
+                            <option value="small">{{localize 'common.sizes.small'}}</option>
+                            <option value="medium">{{localize 'common.sizes.medium'}}</option>
+                            <option value="large">{{localize 'common.sizes.large'}}</option>
+                            <option value="huge">{{localize 'common.sizes.huge'}}</option>
+                            <option value="gargantuan">{{localize 'common.sizes.gargantuan'}}</option>
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+            <div class="character__species">
+                <div class="field field--input">
+                    <label for="data.species">{{localize 'common.species'}}</label>
+                    <select name="data.species">
+                        {{#select data.data.species}}
+                            <option value="arachnid">{{localize 'common.speciesType.arachnid'}}</option>
+                            <option value="tailed-arachnid">{{localize 'common.speciesType.tailedArachnid'}}</option>
+                            <option value="tailed-biped">{{localize 'common.speciesType.tailedBiped'}}</option>
+                            <option value="winged-biped">{{localize 'common.speciesType.wingedBiped'}}</option>
+                            <option value="centaurid">{{localize 'common.speciesType.centaurid'}}</option>
+                            <option value="aquatic-creature">{{localize 'common.speciesType.aquaticCreature'}}</option>
+                            <option value="draconic">{{localize 'common.speciesType.draconic'}}</option>
+                            <option value="humanoid">{{localize 'common.speciesType.humanoid'}}</option>
+                            <option value="insectoid">{{localize 'common.speciesType.insectoid'}}</option>
+                            <option value="winged-insectoid">{{localize 'common.speciesType.wingedInsectoid'}}</option>
+                            <option value="pachyderm">{{localize 'common.speciesType.pachyderm'}}</option>
+                            <option value="tailed-quadruped">{{localize 'common.speciesType.tailedQuadruped'}}</option>
+                            <option value="winged-quadruped">{{localize 'common.speciesType.wingedQuadruped'}}</option>
+                            <option value="serpentine">{{localize 'common.speciesType.serpentine'}}</option>
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
         </header>
         <div class="tabs__body character__body">
             <div class="tab tab--aspects" data-group="primary" data-tab="aspects">
@@ -380,6 +418,9 @@
                             <div class="resources__value" title="{{localize 'common.counter.copper' count=data.data.currency.copper}}">
                                 <i class="fa fa-coins" style="color: #f58644;"></i>
                                 <input name="data.currency.copper" type="number" min="0" value="{{data.data.currency.copper}}" title="{{data.currency.copper}}"/>
+                            </div>
+                            <div class="resources__bulk" title="{{localize 'common.counter.bulk' count=data.data.resources.totalBulk}}">
+                                <i class="fa fa-weight-hanging"></i>{{data.data.resources.totalBulk}} / {{data.data.resources.maxBulk}}
                             </div>
                         </div>
                         <button type="button" class="item__action item__action--add" title="{{localize 'sheet.character.resources.actions.add'}}">

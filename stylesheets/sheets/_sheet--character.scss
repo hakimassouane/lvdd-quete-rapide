@@ -199,6 +199,14 @@ $character--inventory--border--color: $character--header--background;
         grid-column: 4 / span 3;
     }
 
+    .character__size {
+        grid-column: 1 / span 3;
+    }
+
+    .character__species {
+        grid-column: 4 / span 3;
+    }
+
     .character__gold {
         grid-column: 1 / span 2;
     }

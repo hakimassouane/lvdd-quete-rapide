@@ -46,7 +46,7 @@
                     {{#if data.data.showExtras}}
                         <div class="resource__extras">
                             {{#if data.data.canHaveBulk}}
-                                <div class="resource__extra resource__extra--bulk length-{{strlen data.data.bulk}}" title="Poids: {{data.data.bulk}}">
+                                <div class="resource__extra resource__extra--bulk length-{{strlen data.data.bulk}}" title="Encombrement: {{data.data.bulk}}">
                                     <span class="extra__icon"><i class="fa fa-fw fa-weight-hanging"></i></span>
                                     <span class="extra__value">{{#if data.data.bulk}}{{data.data.bulk}}{{else}}0{{/if}}</span>
                                     <input class="extra__input" type="number" name="data.data.bulk" value="{{data.data.bulk}}"/>

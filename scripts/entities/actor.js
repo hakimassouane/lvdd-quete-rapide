@@ -174,6 +174,33 @@ export default class ActorEntity extends Actor {
 		return modifiers;
 	}
 
+	calculateMaxBulk(actor) {
+		let calculation
+		switch (actor.data.size) {
+			case "tiny":
+				calculation = 6 + actor.data.attributes["str"].total / 5
+				return calculation < 5 ? 5 : calculation
+			case "small":
+				calculation = 14 + actor.data.attributes["str"].total / 5
+				return calculation < 10 ? 10 : calculation
+			case "medium":
+				calculation = 18 + actor.data.attributes["str"].total / 5
+				return calculation < 20 ? 20 : calculation
+			case "large":
+				calculation =  22 + (actor.data.attributes["str"].total / 5) * 2
+				return calculation < 40 ? 40 : calculation
+			case "huge":
+				calculation = 30 + (actor.data.attributes["str"].total / 5) * 4
+				return calculation < 80 ? 80 : calculation
+			case "gargantuan":
+				calculation = 46 + (actor.data.attributes["str"].total / 5) * 8
+				return calculation < 160 ? 160 : calculation
+			default:
+				calculation = 18 + actor.data.attributes["str"].total / 5
+				return calculation < 20 ? 20 : calculation
+		}
+	}
+
 	_applyAttributeModifier(actor, attribute, modifier) {
 		if (!actor.data.attributes[attribute].modifier) {
 			actor.data.attributes[attribute].modifier = 0;
@@ -190,6 +217,9 @@ export default class ActorEntity extends Actor {
 		}
 		actor.data.attributes[attribute].total = actor.data.attributes[attribute].base + actor.data.attributes[attribute].modifier;
 		actor.data.attributes[attribute].class = (actor.data.attributes[attribute].modifier == 0) ? "neutral" : (actor.data.attributes[attribute].modifier > 0) ? "higher" : "lower";
+		if (attribute === "str") {
+			actor.data.resources.maxBulk = this.calculateMaxBulk(actor)
+		}
 	}
 
 	_applyArchetypeModifier(actor, archetype, modifier) {

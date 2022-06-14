@@ -13,7 +13,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 			super.defaultOptions,
 			{
 				classes: ["window-gqq"],
-				height: 602,
+				height: 642,
 				width: 948,
 				template: 'systems/lvdd-quete-rapide/templates/sheets/character.html',
 				resizable: false,

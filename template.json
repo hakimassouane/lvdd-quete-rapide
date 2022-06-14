@@ -86,6 +86,8 @@
       "ancestry": null,
       "calling": null,
       "inspiration": 0,
+      "size": "medium",
+      "species": "humanoid",
       "currency": {
         "copper": 0,
         "silver": 0,
