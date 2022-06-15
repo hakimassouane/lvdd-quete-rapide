@@ -3,6 +3,18 @@
  */
 export default class ActorEntity extends Actor {
 
+  /** @inheritdoc */
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+    const sourceId = this.getFlag("core", "sourceId");
+    if ( sourceId?.startsWith("Compendium.") ) return;
+
+    // Player character configuration
+    if ( this.type === "character" ) {
+      this.data.token.update({actorLink: true});
+    }
+  }
+
     /** @override */
 	prepareData() {
 		super.prepareData();
@@ -88,7 +100,7 @@ export default class ActorEntity extends Actor {
 				if (item.data.data.canBeEquipped && item.data.data.isEquipped) {
 					resources.totalEquipped++;
 				}
-				if (item.data.data.canHaveBulk) {
+				if (item.data.data.canHaveBulk && !item.data.data.isEquipped) {
 					resources.totalBulk += Number(item.data.data.bulk);
 				}
 				if (item.data.data.canHaveValue) {
@@ -201,6 +213,16 @@ export default class ActorEntity extends Actor {
 		}
 	}
 
+	calculateGoldWeight(actor) {
+		let goldWeight = 0
+
+		if (actor.data.currency.gold + actor.data.currency.silver + actor.data.currency.copper > 100) {
+			goldWeight += Math.floor((actor.data.currency.gold + actor.data.currency.silver + actor.data.currency.copper) / 100)
+		}
+		
+		return goldWeight
+	}
+
 	_applyAttributeModifier(actor, attribute, modifier) {
 		if (!actor.data.attributes[attribute].modifier) {
 			actor.data.attributes[attribute].modifier = 0;
@@ -218,7 +240,12 @@ export default class ActorEntity extends Actor {
 		actor.data.attributes[attribute].total = actor.data.attributes[attribute].base + actor.data.attributes[attribute].modifier;
 		actor.data.attributes[attribute].class = (actor.data.attributes[attribute].modifier == 0) ? "neutral" : (actor.data.attributes[attribute].modifier > 0) ? "higher" : "lower";
 		if (attribute === "str") {
+			actor.data.resources.totalBulk += this.calculateGoldWeight(actor)
 			actor.data.resources.maxBulk = this.calculateMaxBulk(actor)
+			actor.data.resources.maxBulkClass =
+			actor.data.resources.maxBulk >= actor.data.resources.totalBulk
+			? ""
+			: actor.data.resources.totalBulk > (actor.data.resources.maxBulk * 1.5) ? "max-capacity" : "encumbered"
 		}
 	}
 

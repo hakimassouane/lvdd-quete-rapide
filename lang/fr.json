@@ -83,8 +83,8 @@
     "common.equipped.short": "E",
     "common.equipped.long": "Equipé",
     "common.unequipped": "Non équipé",
-    "common.equippable": "Equippable",
-    "common.rollable": "Rollable",
+    "common.equippable": "À équiper",
+    "common.rollable": "À roll",
     "common.rollingAttributesAndArchetype": "Stats à roll",
     "common.rarity": "Rareté",
     "common.rarities.common": "Commun",
@@ -115,6 +115,7 @@
 
     "sheet.character.label": "Feuille de personnage Quickquest par défaut",
     "sheet.character.title": "Personnage",
+    "sheet.character.actorType": "{type}",
     "sheet.character.nav.aspects": "Général",
     "sheet.character.nav.resources": "Inventaire",
     "sheet.character.nav.perks": "Talents",

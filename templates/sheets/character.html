@@ -4,7 +4,7 @@
             <div class="sheet__logo">
                 <span>Quête</span>
                 <span>Rapide</span>
-                <span>{{localize 'sheet.character.title'}}</span>
+                <span>{{localize 'sheet.character.actorType' type=actor.data.type}}</span>
             </div>
             <div class="navigation">
                 <a class="item active" data-tab="aspects">{{localize 'sheet.character.nav.aspects'}}</a>
@@ -419,8 +419,8 @@
                                 <i class="fa fa-coins" style="color: #f58644;"></i>
                                 <input name="data.currency.copper" type="number" min="0" value="{{data.data.currency.copper}}" title="{{data.currency.copper}}"/>
                             </div>
-                            <div class="resources__bulk" title="{{localize 'common.counter.bulk' count=data.data.resources.totalBulk}}">
-                                <i class="fa fa-weight-hanging"></i>{{data.data.resources.totalBulk}} / {{data.data.resources.maxBulk}}
+                            <div class="resources__bulk text-{{data.data.resources.maxBulkClass}}" title="{{localize 'common.counter.bulk' count=data.data.resources.totalBulk}}">
+                                <i class="fa fa-weight-hanging icon-{{data.data.resources.maxBulkClass}}"></i>{{data.data.resources.totalBulk}} / {{data.data.resources.maxBulk}}
                             </div>
                         </div>
                         <button type="button" class="item__action item__action--add" title="{{localize 'sheet.character.resources.actions.add'}}">

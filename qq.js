@@ -37,7 +37,7 @@ Hooks.once("init", function() {
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
 	Actors.registerSheet("gqq", ActorSheetCharacter, {
-		types: ["character"],
+		types: ["character", "npc", "creature"],
 		makeDefault: true,
 		label: "sheet.character.label"
 	});

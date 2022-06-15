@@ -56,6 +56,26 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-group__header"><i class="fa fa-fw fa-hand-paper"></i> {{localize 'common.equippable'}}</label>
+                    <div class="form-group__body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <input type="checkbox" name="data.canBeEquipped" data-dtype="Boolean" {{checked item.data.canBeEquipped}}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-group__header"><i class="fa fa-fw fa-dice"></i> {{localize 'common.rollable'}}</label>
+                    <div class="form-group__body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <input type="checkbox" name="data.canBeRolled" data-dtype="Boolean" {{checked item.data.canBeRolled}}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-group__header"><i class="fa fa-fw fa-weight-hanging"></i> {{localize 'common.bulk'}}</label>
                     <div class="form-group__body">
                         <div class="input-group">
@@ -85,26 +105,6 @@
                                 <input type="checkbox" name="data.canHaveCharges" data-dtype="Boolean" {{checked item.data.canHaveCharges}}/>
                             </div>
                             <input name="data.charges" type="number" value="{{item.data.charges}}"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-group__header"><i class="fa fa-fw fa-hand-paper"></i> {{localize 'common.equippable'}}</label>
-                    <div class="form-group__body">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <input type="checkbox" name="data.canBeEquipped" data-dtype="Boolean" {{checked item.data.canBeEquipped}}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-group__header"><i class="fa fa-fw fa-dice"></i> {{localize 'common.rollable'}}</label>
-                    <div class="form-group__body">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <input type="checkbox" name="data.canBeRolled" data-dtype="Boolean" {{checked item.data.canBeRolled}}/>
-                            </div>
                         </div>
                     </div>
                 </div>

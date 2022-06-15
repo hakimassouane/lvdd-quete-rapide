@@ -203,6 +203,22 @@ $items--row--background--even: mix(#dde0eb, #b1b5ca, 60%);
         width: 100%;
         font-weight: bold;
 
+        .icon-encumbered {
+            background: #ff8d00;
+        }
+
+        .text-encumbered {
+            color: #ff8d00
+        }
+
+        .text-max-capacity {
+            color: #e80a0a
+        }
+
+        .icon-max-capacity {
+            background: #e80a0a;
+        }
+
         i {
             width: 1.25rem;
             height: 1.25rem;

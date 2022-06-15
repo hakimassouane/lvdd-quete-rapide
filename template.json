@@ -110,6 +110,64 @@
         "max": 0
       }
     },
+    "npc": {
+      "templates": ["base"],
+      "ancestry": null,
+      "calling": null,
+      "inspiration": 0,
+      "size": "medium",
+      "species": "humanoid",
+      "currency": {
+        "copper": 0,
+        "silver": 0,
+        "gold": 0
+      },
+      "details": {
+        "biography": {
+          "value": "",
+          "public": ""
+        }
+      },
+      "resolve": {
+        "value": 10,
+        "base": 10,
+        "min": 0,
+        "temp": 0,
+        "tempmax": 0,
+        "sources": 0,
+        "class": 0,
+        "max": 0
+      }
+    },
+    "creature": {
+      "templates": ["base"],
+      "ancestry": null,
+      "calling": null,
+      "inspiration": 0,
+      "size": "medium",
+      "species": "humanoid",
+      "currency": {
+        "copper": 0,
+        "silver": 0,
+        "gold": 0
+      },
+      "details": {
+        "biography": {
+          "value": "",
+          "public": ""
+        }
+      },
+      "resolve": {
+        "value": 10,
+        "base": 10,
+        "min": 0,
+        "temp": 0,
+        "tempmax": 0,
+        "sources": 0,
+        "class": 0,
+        "max": 0
+      }
+    },
     "htmlFields": ["details.biography.value", "details.biography.public"]
   },
   "Item": {
