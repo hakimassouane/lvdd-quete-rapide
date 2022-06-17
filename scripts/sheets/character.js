@@ -136,100 +136,12 @@ export default class ActorSheetCharacter extends ActorSheet {
 		this.actor.deleteEmbeddedDocuments("Item", [li.dataset.itemId]);
 	}
 
-	styleGenerator(roll, toBeat) {
-        if (roll.total <= 5) {
-            return "color: green"
-        } else if (roll.total >= 95) {
-            return "color: red"
-        }
-
-        return roll.total <= toBeat ? "color: darkgreen" : "color: darkred";
-    }
-
-    successOrMiss(roll, toBeat) {
-        if (roll.total <= 5) {
-            return "Succès critique !"
-        } else if (roll.total >= 95) {
-            return "Échec critique !"
-        }
-
-        return roll.total <= toBeat ? "Succès" : "Échec";
-    }
-
-    generateStatsToRollString(form) {
-        let generatedString = `Stats : ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) + " " + this.actor.data.data.attributes[form.attribute].total + "% + " : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) + " " + this.actor.data.data.archetypes[form.archetype].total + "% + " : ""}`
-
-        return generatedString.slice(0, -3)
-    }
-
-    generateRollBonusInfo(actor, form) {
-		let rollType = ""
-		let bonusAmount = 0
-		let finalString = ""
-
-		switch (form.bonus) {
-			case "beni":
-				rollType = "Béni"
-				bonusAmount = 40
-				break;
-			case "tres-facile":
-				rollType = "Très facile"
-				bonusAmount = 30
-				break;
-			case "facile":
-				rollType = "Facile"
-				bonusAmount = 20
-				break;
-			case "accessible":
-				rollType = "Accecssible"
-				bonusAmount = 10
-				break;
-			case "normal":
-				rollType = "Normal"
-				bonusAmount = 0
-				break;
-			case "complexe":
-				rollType = "Complexe"
-				bonusAmount = -10
-				break;
-			case "difficile":
-				rollType = "Difficile"
-				bonusAmount = -20
-				break;
-			case "tres-difficile":
-				rollType = "Très difficile"
-				bonusAmount = -30
-				break;
-			case "maudit":
-				rollType = "Maudit"
-				bonusAmount = -40
-				break;
-			default:
-				rollType = "Normal"
-				bonusAmount = 0
-			}
-
-		if (bonusAmount !== 0) {
-			finalString += `<i>${rollType} : ${bonusAmount}%</i><br>`
-		}
-		if (form.consumeInspiration && actor.data.data.inspiration > 0) {
-			finalString += `<i>Inspiration : 10%</i><br>`
-		}
-
-		return {
-			bonusAmount,
-			rollType,
-			consumeInspiration: form.consumeInspiration,
-			finalString
-		}
-	}
-
 	async _onMakeRollStats(event) {
 		event.preventDefault();
 		let preselectedAttribute = event.currentTarget.closest(".attribute") ? event.currentTarget.closest(".attribute").getAttribute("data-attribute") : null;
 		try {
 			const form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preselectedAttribute});
-			const formInfos = this.generateRollBonusInfo(this.actor, form)
+			const formInfos = game.boilerplate.generateRollBonusInfo(this.actor, form)
 			const roll = await new Roll("1d100").roll();
 			let toBeat = formInfos.bonusAmount
 			let contentDices = []
@@ -269,13 +181,13 @@ export default class ActorSheetCharacter extends ActorSheet {
 						</h2>
 					</div>
 					<p class="item-name" style="margin: 0.5rem 0.3rem;">
-						<i>${this.generateStatsToRollString(form)}</i><br>
+						<i>${game.boilerplate.generateStatsToRollString(this.actor, form)}</i><br>
 						${formInfos.finalString}
 						<i>Taux de réussite : ${toBeat}%</i>
 					</p>
 					<div class="dice-roll">
 						<div class="dice-result">
-						<div class="dice-formula" style="${this.styleGenerator(roll, toBeat)}">${this.successOrMiss(roll, toBeat)}</div>
+						<div class="dice-formula" style="${game.boilerplate.styleGenerator(roll, toBeat)}">${game.boilerplate.successOrMiss(roll, toBeat)}</div>
 							<div class="dice-tooltip">
 								<section class="tooltip-part">
 									<div class="dice">
@@ -287,7 +199,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 									</div>
 								</section>
 							</div>
-						<h4 class="dice-total" style="${this.styleGenerator(roll, toBeat)}">${roll.total}</h4>
+						<h4 class="dice-total" style="${game.boilerplate.styleGenerator(roll, toBeat)}">${roll.total}</h4>
 					</div>
 				</div>
 				`
@@ -365,7 +277,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 								formInfos.bonusType = 20
 								break;
 							case "accessible":
-								formInfos.rollType = "Accecssible"
+								formInfos.rollType = "Accessible"
 								formInfos.bonusType = 10
 								break;
 							case "normal":

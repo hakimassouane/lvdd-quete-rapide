@@ -55,7 +55,7 @@ export default class CharacterRollDialog extends Dialog {
 				"attribute": form.querySelector("[name='attribute']:checked") ? form.querySelector("[name='attribute']:checked").value : null,
 				"archetype": form.querySelector("[name='archetype']:checked") ? form.querySelector("[name='archetype']:checked").value : null,
 				"advantage": advantage,
-				"bonus": form.querySelector("[name='bonus']").value,
+				"rollType": form.querySelector("[name='roll-type']").value,
 				"mode": form.querySelector("[name='mode']").value,
 				"consumeInspiration": form.querySelector("[name='inspiration']").checked
 			};

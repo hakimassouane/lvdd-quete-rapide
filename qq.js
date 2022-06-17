@@ -24,7 +24,11 @@ Hooks.once("init", function() {
 		TokenQueteRapide,
 		rollItemMacro,
 		handleTokenActionHudItems,
-		handleTokenActionHudStats
+		handleTokenActionHudStats,
+		successOrMiss,
+		styleGenerator,
+		generateRollBonusInfo,
+		generateStatsToRollString
 	};
 
 	CONFIG.Actor.documentClass  = ActorEntity;
@@ -73,12 +77,152 @@ Hooks.once("init", function() {
 
 Hooks.once("ready", async function() {
 	// Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-	Hooks.on("hotbarDrop", (bar, data, slot) => createQuickQuestMacro(data, slot));
+	Hooks.on("hotbarDrop", (bar, data, slot) => createQueteRapideMacro(data, slot));
 });
 
-/* -------------------------------------------- */
-/*  Hotbar Macros                               */
-/* -------------------------------------------- */
+	function styleGenerator(roll, toBeat) {
+		if (roll.total <= 5) {
+			return "color: green"
+		} else if (roll.total >= 95) {
+			return "color: red"
+		}
+
+		return roll.total <= toBeat ? "color: darkgreen" : "color: darkred";
+	}
+
+	function successOrMiss(roll, toBeat) {
+		if (roll.total <= 5) {
+			return "Succès critique !"
+		} else if (roll.total >= 95) {
+			return "Échec critique !"
+		}
+
+		return roll.total <= toBeat ? "Succès" : "Échec";
+	}
+
+	function generateStatsToRollString(actor, form, item = null) {
+		let generatedString = "Stats : "
+		if (item) {
+        	form.forEach(stat => {
+            	generatedString = generatedString + stat.name + " " + stat.total + "% + " 
+        	})
+		} else {
+			generatedString = `${generatedString}${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) + " " + actor.data.data.attributes[form.attribute].total + "% + " : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) + " " + actor.data.data.archetypes[form.archetype].total + "% + " : ""}`
+		}
+		
+		return generatedString.slice(0, -3)
+	}
+
+	function generateRollBonusInfo(actor, form, item = null) {
+		let rollType = ""
+		let bonusAmount = 0
+		let finalString = ""
+
+		if (item) {
+			switch (form.rollType) {
+				case "Béni":
+					rollType = "Béni"
+					bonusAmount = 40
+					break;
+				case "Très facile":
+					rollType = "Très facile"
+					bonusAmount = 30
+					break;
+				case "Facile":
+					rollType = "Facile"
+					bonusAmount = 20
+					break;
+				case "Accessible":
+					rollType = "Accessible"
+					bonusAmount = 10
+					break;
+				case "Normal":
+					rollType = "Normal"
+					bonusAmount = 0
+					break;
+				case "Complexe":
+					rollType = "Complexe"
+					bonusAmount = -10
+					break;
+				case "Difficile":
+					rollType = "Difficile"
+					bonusAmount = -20
+					break;
+				case "Très difficile":
+					rollType = "Très difficile"
+					bonusAmount = -30
+					break;
+				case "Maudit":
+					rollType = "Maudit"
+					bonusAmount = -40
+					break;
+				default:
+					rollType = "Normal"
+					bonusAmount = 0
+			}
+		} else {
+			switch (form.rollType) {
+				case "beni":
+					rollType = "Béni"
+					bonusAmount = 40
+					break;
+				case "tres-facile":
+					rollType = "Très facile"
+					bonusAmount = 30
+					break;
+				case "facile":
+					rollType = "Facile"
+					bonusAmount = 20
+					break;
+				case "accessible":
+					rollType = "Accessible"
+					bonusAmount = 10
+					break;
+				case "normal":
+					rollType = "Normal"
+					bonusAmount = 0
+					break;
+				case "complexe":
+					rollType = "Complexe"
+					bonusAmount = -10
+					break;
+				case "difficile":
+					rollType = "Difficile"
+					bonusAmount = -20
+					break;
+				case "tres-difficile":
+					rollType = "Très difficile"
+					bonusAmount = -30
+					break;
+				case "maudit":
+					rollType = "Maudit"
+					bonusAmount = -40
+					break;
+				default:
+					rollType = "Normal"
+					bonusAmount = 0
+			}
+		}
+
+		if (item && item.data.skillBonus != 0) {
+			finalString += `<i>Bonus de compétence : ${item.data.skillBonus}% </i><br>`
+		}
+
+		if (bonusAmount !== 0) {
+			finalString += `<i>${rollType} : ${bonusAmount}%</i><br>`
+		}
+		
+		if (form.consumeInspiration && actor.data.data.inspiration > 0) {
+			finalString += `<i>Inspiration : 10%</i><br>`
+		}
+
+		return {
+			bonusAmount,
+			rollType,
+			consumeInspiration: form.consumeInspiration,
+			finalString
+		}
+	}
 
 	/**
  		* Create a Macro from an Item drop.
@@ -87,7 +231,7 @@ Hooks.once("ready", async function() {
  		* @param {number} slot     The hotbar slot to use
  		* @returns {Promise}
 	*/
-	async function createQuickQuestMacro(data, slot) {
+	async function createQueteRapideMacro(data, slot) {
 		if (data.type !== "Item") return;
 		if (!data.data.data.canBeRolled) return ui.notifications.warn("You can only create macro buttons for rollable items");
 		if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
@@ -155,7 +299,7 @@ Hooks.once("ready", async function() {
 								formInfos.bonusType = 20
 								break;
 							case "accessible":
-								formInfos.rollType = "Accecssible"
+								formInfos.rollType = "Accessible"
 								formInfos.bonusType = 10
 								break;
 							case "normal":
@@ -292,7 +436,7 @@ Hooks.once("ready", async function() {
 							formInfos.bonusType = 20
 							break;
 						case "accessible":
-							formInfos.rollType = "Accecssible"
+							formInfos.rollType = "Accessible"
 							formInfos.bonusType = 10
 							break;
 						case "normal":
@@ -326,95 +470,6 @@ Hooks.once("ready", async function() {
 			}).render(true);
 		}
   	}
-
-  
- 	function styleGenerator(roll, toBeat) {
-		if (roll.total <= 5) {
-			return "color: green"
-		} else if (roll.total >= 95) {
-			return "color: red"
-		}
-
-		return roll.total <= toBeat ? "color: darkgreen" : "color: darkred";
-	}
-
-	function successOrMiss(roll, toBeat) {
-		if (roll.total <= 5) {
-			return "Succès critique !"
-		} else if (roll.total >= 95) {
-			return "Échec critique !"
-		}
-
-		return roll.total <= toBeat ? "Succès" : "Échec";
-	}
-
-	function generateStatsToRollString(actor, form) {
-		let generatedString = `Stats : ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) + " " + actor.data.data.attributes[form.attribute].total + "% + " : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) + " " + actor.data.data.archetypes[form.archetype].total + "% + " : ""}`
-
-		return generatedString.slice(0, -3)
-	}
-
-	function generateRollBonusInfo(actor, form) {
-		let rollType = ""
-		let bonusAmount = 0
-		let finalString = ""
-
-		switch (form.bonus) {
-			case "beni":
-				rollType = "Béni"
-				bonusAmount = 40
-				break;
-			case "tres-facile":
-				rollType = "Très facile"
-				bonusAmount = 30
-				break;
-			case "facile":
-				rollType = "Facile"
-				bonusAmount = 20
-				break;
-			case "accessible":
-				rollType = "Accecssible"
-				bonusAmount = 10
-				break;
-			case "normal":
-				rollType = "Normal"
-				bonusAmount = 0
-				break;
-			case "complexe":
-				rollType = "Complexe"
-				bonusAmount = -10
-				break;
-			case "difficile":
-				rollType = "Difficile"
-				bonusAmount = -20
-				break;
-			case "tres-difficile":
-				rollType = "Très difficile"
-				bonusAmount = -30
-				break;
-			case "maudit":
-				rollType = "Maudit"
-				bonusAmount = -40
-				break;
-			default:
-				rollType = "Normal"
-				bonusAmount = 0
-			}
-
-		if (bonusAmount !== 0) {
-			finalString += `<i>${rollType} : ${bonusAmount}%</i><br>`
-		}
-		if (form.consumeInspiration && actor.data.data.inspiration > 0) {
-			finalString += `<i>Inspiration : 10%</i><br>`
-		}
-
-		return {
-			bonusAmount,
-			rollType,
-			consumeInspiration: form.consumeInspiration,
-			finalString
-		}
-	}
 
   	/**
    		* Handles the Token Action Hud module call for Attributes and Archetypes

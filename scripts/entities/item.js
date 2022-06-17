@@ -22,55 +22,6 @@ export default class ItemEntity extends Item {
         }
 	}
 
-    styleGenerator(roll, toBeat) {
-        if (roll.total <= 5) {
-            return "color: green"
-        } else if (roll.total >= 95) {
-            return "color: red"
-        }
-
-        return roll.total <= toBeat ? "color: darkgreen" : "color: darkred";
-    }
-
-    successOrMiss(roll, toBeat) {
-        if (roll.total <= 5) {
-            return "Succès critique !"
-        } else if (roll.total >= 95) {
-            return "Échec critique !"
-        }
-
-        return roll.total <= toBeat ? "Succès" : "Échec";
-    }
-
-    generateStatsToRollString(rolledStats) {
-        let generatedString = "Stats : "
-
-        rolledStats.forEach(stat => {
-            generatedString = generatedString + stat.name + " " + stat.total + "% + " 
-        })
-
-        return generatedString.slice(0, -3)
-    }
-
-    generateRollBonusInfo(item, formInfos, actor) {
-        let generatedString = ""
-
-
-        if (item.data.skillBonus != 0) {
-            generatedString += `<i>Bonus de compétence : ${item.data.skillBonus}% </i><br>`
-        }
-
-        if (Object.keys(formInfos).length !== 0 && formInfos.bonusType !== 0) {
-            generatedString += `<i>${formInfos.rollType} : ${formInfos.bonusType}%</i><br>`
-        }
-
-        if (Object.keys(formInfos).length !== 0 && (formInfos.consumeInspiration && actor.data.data.inspiration > 0)) {
-            generatedString += `<i>Inspiration : 10%</i><br>`
-        }
-
-        return generatedString
-    }
-
     /**
      * Handle clickable rolls.
      */
@@ -117,13 +68,13 @@ export default class ItemEntity extends Item {
 					</h2>
                 </div>
                 <p class="item-name" style="margin: 0.5rem 0.3rem;">
-                    <i>${this.generateStatsToRollString(rolledStats)}</i><br>
-                    ${this.generateRollBonusInfo(item, formInfos, this.actor)}
+                    <i>${game.boilerplate.generateStatsToRollString(this.actor, rolledStats, item)}</i><br>
+                    ${game.boilerplate.generateRollBonusInfo(this.actor, formInfos, item).finalString}
                     <i>Taux de réussite : ${toBeat}%</i>
                 </p>
                 <div class="dice-roll">
                     <div class="dice-result">
-                    <div class="dice-formula" style="${this.styleGenerator(roll, toBeat)}">${this.successOrMiss(roll, toBeat)}</div>
+                    <div class="dice-formula" style="${game.boilerplate.styleGenerator(roll, toBeat)}">${game.boilerplate.successOrMiss(roll, toBeat)}</div>
                         <div class="dice-tooltip">
                             <section class="tooltip-part">
                                 <div class="dice">
@@ -135,7 +86,7 @@ export default class ItemEntity extends Item {
                                 </div>
                             </section>
                         </div>
-                    <h4 class="dice-total" style="${this.styleGenerator(roll, toBeat)}">${roll.total}</h4>
+                    <h4 class="dice-total" style="${game.boilerplate.styleGenerator(roll, toBeat)}">${roll.total}</h4>
                 </div>
             </div>
             `
