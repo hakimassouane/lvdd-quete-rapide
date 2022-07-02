@@ -28,6 +28,7 @@ export default class ItemEntity extends Item {
     async roll(formInfos) {
         const item = this.data;
         const actorData = this.actor ? this.actor.data.data : {};
+        const targets = Array.from(game.user.targets.values())
         const contentDices = []
         const rollFormula = "d100"
         const roll = await new Roll(rollFormula, actorData).roll();
@@ -67,10 +68,11 @@ export default class ItemEntity extends Item {
                         <b>${item.name}</b>
 					</h2>
                 </div>
-                <p class="item-name" style="margin: 0.5rem 0.3rem;">
+                <p class="item-name">
                     <i>${game.boilerplate.generateStatsToRollString(this.actor, rolledStats, item)}</i><br>
                     ${game.boilerplate.generateRollBonusInfo(this.actor, formInfos, item).finalString}
                     <i>Taux de réussite : ${toBeat}%</i>
+                    ${await game.boilerplate.handleTargets(targets) || ""}
                 </p>
                 <div class="dice-roll">
                     <div class="dice-result">

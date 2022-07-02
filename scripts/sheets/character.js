@@ -142,6 +142,7 @@ export default class ActorSheetCharacter extends ActorSheet {
 		try {
 			const form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preselectedAttribute});
 			const formInfos = game.boilerplate.generateRollBonusInfo(this.actor, form)
+			const targets = Array.from(game.user.targets.values())
 			const roll = await new Roll("1d100").roll();
 			let toBeat = formInfos.bonusAmount
 			let contentDices = []
@@ -180,10 +181,11 @@ export default class ActorSheetCharacter extends ActorSheet {
 							<b>Jet de ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) : ""}</b>
 						</h2>
 					</div>
-					<p class="item-name" style="margin: 0.5rem 0.3rem;">
+					<p class="item-name">
 						<i>${game.boilerplate.generateStatsToRollString(this.actor, form)}</i><br>
 						${formInfos.finalString}
 						<i>Taux de réussite : ${toBeat}%</i>
+						${await game.boilerplate.handleTargets(targets) || ""}
 					</p>
 					<div class="dice-roll">
 						<div class="dice-result">

@@ -28,13 +28,31 @@ Hooks.once("init", function() {
 		successOrMiss,
 		styleGenerator,
 		generateRollBonusInfo,
-		generateStatsToRollString
+		generateStatsToRollString,
+		handleTargets
 	};
 
 	CONFIG.Actor.documentClass  = ActorEntity;
   	CONFIG.Item.documentClass  = ItemEntity;
 	CONFIG.Token.documentClass  = TokenDocumentQueteRapide;
 	CONFIG.Token.objectClass = TokenQueteRapide;
+
+	CONFIG.locationMap = {
+		'arachnid': { camelCasedName: 'arachnid', tableName: 'Localisation arachnides' },
+		'tailed-arachnid': { camelCasedName: 'tailedArachnid', tableName: 'Localisation arachnides à queue' },
+		'tailed-biped': { camelCasedName: 'tailedBiped', tableName: 'Localisation bipède à queue' },
+		'winged-biped': { camelCasedName: 'wingedBiped', tableName: 'Localisation bipède ailé' },
+		'centaurid': { camelCasedName: 'centaurid', tableName: 'Localisation centauridés' },
+		'aquatic-creature': { camelCasedName: 'aquaticCreature', tableName: 'Localisation créature aquatique' },
+		'draconic': { camelCasedName: 'draconic', tableName: 'Localisation draconique' },
+		'humanoid': { camelCasedName: 'humanoid', tableName: 'Localisation humanoïde' },
+		'insectoid': { camelCasedName: 'insectoid', tableName: 'Localisation insectoïde' },
+		'winged-insectoid': { camelCasedName: 'wingedInsectoid', tableName: 'Localisation insectoïde ailé' },
+		'pachyderm': { camelCasedName: 'pachyderm', tableName: 'Localisation pachyderme' },
+		'tailed-quadruped': { camelCasedName: 'tailedQuadruped', tableName: 'Localisation quadrupède à queue' },
+		'winged-quadruped': { camelCasedName: 'wingedQuadruped', tableName: 'Localisation quadrupède ailé' },
+		'serpentine': { camelCasedName: 'serpentine', tableName: 'Localisation serpentes' },
+	}
 
 	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 
@@ -224,6 +242,26 @@ Hooks.once("ready", async function() {
 		}
 	}
 
+	async function handleTargets(targets) {
+		if (targets.length > 0) {
+			const rollTablePack = game.packs.get('lvdd-quete-rapide.locationhittables');
+			let targetString = '<hr><h3 style="margin-bottom: 0px; font-size: 1.35em;"><b>Cibles</b></h3><p style="margin: 0px;">'
+
+			rollTablePack.getIndex();
+			for (let i = 0; i < targets.length; i++) {
+				let rollTableID = rollTablePack.index.find(t => t.name === CONFIG.locationMap[targets[i].actor.data.data.species].tableName)._id;
+				let table = await rollTablePack.getDocument(rollTableID)
+				let roll = await table.draw({displayChat: false})
+				targetString += `<b>${targets[i].actor.data.name}</b> : ${roll.results[0].data.text} (${game.i18n.format(`common.speciesType.${CONFIG.locationMap[targets[i].actor.data.data.species].camelCasedName}`)})<br>`
+			}
+
+			targetString += '</p>'
+			return targetString
+		}
+
+		return null
+	}
+
 	/**
  		* Create a Macro from an Item drop.
  		* Get an existing item macro if one exists, otherwise create a new one.
@@ -397,7 +435,6 @@ Hooks.once("ready", async function() {
 			</form>
 		`;
 
-
 		if (event.altKey) {
 			game.boilerplate.rollItemMacro(itemName, {});
 		} else {
@@ -481,6 +518,7 @@ Hooks.once("ready", async function() {
 		try {
 			const form = await CharacterRollDialog.characterRollDialog({preselectedAttribute: preSelectedStatName});
 			const formInfos = generateRollBonusInfo(actor, form)
+			const targets = Array.from(game.user.targets.values())
 			const roll = await new Roll("1d100").roll();
 			let toBeat = formInfos.bonusAmount
 			let contentDices = []
@@ -519,10 +557,11 @@ Hooks.once("ready", async function() {
 							<b>Jet de ${form.attribute ? game.i18n.format(`common.${form.attribute}.name`) : ""} ${form.archetype ? game.i18n.format(`common.${form.archetype}.name`) : ""}</b>
 						</h2>
 					</div>
-					<p class="item-name" style="margin: 0.5rem 0.3rem;">
+					<p class="item-name">
 						<i>${generateStatsToRollString(actor, form)}</i><br>
 						${formInfos.finalString}
 						<i>Taux de réussite : ${toBeat}%</i>
+						${await game.boilerplate.handleTargets(targets) || ""}
 					</p>
 					<div class="dice-roll">
 						<div class="dice-result">
