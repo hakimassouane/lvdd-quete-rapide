@@ -241,6 +241,7 @@ export default class ActorEntity extends Actor {
 		actor.data.attributes[attribute].class = (actor.data.attributes[attribute].modifier == 0) ? "neutral" : (actor.data.attributes[attribute].modifier > 0) ? "higher" : "lower";
 		if (attribute === "str") {
 			actor.data.resources.totalBulk += this.calculateGoldWeight(actor)
+			actor.data.resources.totalBulk = Math.round((actor.data.resources.totalBulk + Number.EPSILON) * 100) / 100
 			actor.data.resources.maxBulk = this.calculateMaxBulk(actor)
 			actor.data.resources.maxBulkClass =
 			actor.data.resources.maxBulk >= actor.data.resources.totalBulk
