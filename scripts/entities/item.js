@@ -27,13 +27,40 @@ export default class ItemEntity extends Item {
      */
     async roll(formInfos) {
         const item = this.data;
-        const actorData = this.actor ? this.actor.data.data : {};
+        const actorData = this.actor ? this.actor.data.data : formInfos.actor ? formInfos.actor.data.data : {};
         const targets = Array.from(game.user.targets.values())
         const contentDices = []
         const rollFormula = "d100"
         const roll = await new Roll(rollFormula, actorData).roll();
         const rolledStats = []
         let toBeat = 0
+
+        if (targets && !formInfos.isContestRoll) {
+            targets.forEach(target => {
+                const actorOfTarget = target.actor
+
+                if (actorOfTarget.type === "character") {
+                    const gameUsersFiltered = game.users.filter(user => user.charname === actorOfTarget.data.name)
+                    if (gameUsersFiltered.length) {
+                        socket.emit('system.lvdd-quete-rapide', {
+                            type: 'request-roll-player',
+                            targetUserId: gameUsersFiltered[0].id,
+                            payload: {
+                                actor: actorOfTarget
+                            }
+                        });
+                    }
+                } else {
+                    socket.emit('system.lvdd-quete-rapide', {
+                        type: 'request-roll-gm',
+                        payload: {
+                            actor: actorOfTarget,
+                            tokenId: target.id
+                        }
+                    });
+                } 
+            })
+        }
 
         item.data.rollStats.forEach((rollStat) => {
             if (actorData.attributes[rollStat.type]) {
@@ -45,7 +72,7 @@ export default class ItemEntity extends Item {
             }
         })
 
-        toBeat += parseInt(item.data.skillBonus) + (formInfos.bonusType || 0) + (formInfos.consumeInspiration && actorData.inspiration > 0 ? 10 : 0)
+        toBeat += parseInt(item.data.skillBonus) + (formInfos.bonusAmount || 0) + (formInfos.consumeInspiration && actorData.inspiration > 0 ? 10 : 0)
         if (toBeat > 100) {
             toBeat = 100
         } else if (toBeat < 0) {
@@ -58,20 +85,21 @@ export default class ItemEntity extends Item {
         contentDices.push(`</ol>`)
         ChatMessage.create({
             type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+            speaker: ChatMessage.getSpeaker({ actor: this.actor || formInfos.actor }),
             roll,
             content: `
             <div>
                 <div style="display: flex; align-items:center; margin-bottom: 0.5rem;">
                     <img src="${item.img}" width="36" height="36">
                     <h2 class="item-name" style="margin: 0.5rem 0.3rem;">
-                        <b>${item.name}</b>
+                        <b>${item.name} ${formInfos.actor ? ' (Opposition)' : ''}</b>
 					</h2>
                 </div>
                 <p class="item-name">
-                    <i>${game.boilerplate.generateStatsToRollString(this.actor, rolledStats, item)}</i><br>
-                    ${game.boilerplate.generateRollBonusInfo(this.actor, formInfos, item).finalString}
-                    <i>Taux de réussite : ${toBeat}%</i>
+                    <i>${game.boilerplate.generateStatsToRollString(this.actor || formInfos.actor, rolledStats, item)}</i><br>
+                    ${game.boilerplate.generateRollBonusInfo(this.actor || formInfos.actor, formInfos, item).finalString}
+                    <i>Taux de réussite : ${toBeat}%</i><br>
+                    <i>Degré de réussite : <b>${Math.floor(toBeat / 10) - Math.floor(roll.total /10)}</b></i>
                     ${await game.boilerplate.handleTargets(targets) || ""}
                 </p>
                 <div class="dice-roll">
@@ -94,8 +122,15 @@ export default class ItemEntity extends Item {
             `
         });
 
-        if (this.actor && formInfos.consumeInspiration && actorData.inspiration > 0) {
-            this.actor.update({ 'data.inspiration': actorData.inspiration -= 1 });
+        if (formInfos.consumeInspiration && actorData.inspiration > 0) {
+            if (this.actor) {
+                this.actor.update({ 'data.inspiration': actorData.inspiration -= 1 });
+            } else if (formInfos.actor && formInfos.actor.type === 'character') {
+                formInfos.actor.update({ 'data.inspiration': actorData.inspiration -= 1 });
+            } else {
+                formInfos.token.actor.update({ 'data.inspiration': actorData.inspiration -= 1 });
+            }
+            
         }
     }
 }

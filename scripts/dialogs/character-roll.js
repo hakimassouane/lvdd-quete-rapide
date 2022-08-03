@@ -51,11 +51,13 @@ export default class CharacterRollDialog extends Dialog {
 	} = {}) {
 		function _getFormData(html, advantage) {
 			let form = html.find("#character-roll")[0];
+			const generatedRollTypeAndBonusAmount = game.boilerplate.generateRollTypeAndBonusAmount(form.querySelector("[name='roll-type']").value)
 			return {
 				"attribute": form.querySelector("[name='attribute']:checked") ? form.querySelector("[name='attribute']:checked").value : null,
 				"archetype": form.querySelector("[name='archetype']:checked") ? form.querySelector("[name='archetype']:checked").value : null,
 				"advantage": advantage,
-				"rollType": form.querySelector("[name='roll-type']").value,
+				"rollType": generatedRollTypeAndBonusAmount.rollType,
+				"bonusAmount": generatedRollTypeAndBonusAmount.bonusAmount,
 				"mode": form.querySelector("[name='mode']").value,
 				"consumeInspiration": form.querySelector("[name='inspiration']").checked
 			};
